@@ -18,10 +18,10 @@
 #endif
 
 #ifndef DEFAULT_WIDTH
-#define DEFAULT_WIDTH 640
+#define DEFAULT_WIDTH 1280
 #endif
 #ifndef DEFAULT_HEIGHT
-#define DEFAULT_HEIGHT 480
+#define DEFAULT_HEIGHT 720
 #endif
 
 namespace dvl {

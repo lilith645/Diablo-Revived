@@ -418,7 +418,7 @@ static void print_help_and_exit()
 	printf("    %-20s %-30s\n", "-r <##########>", "Set map seed");
 	printf("    %-20s %-30s\n", "-t <##>", "Set current quest level");
 #endif
-	printf("\nReport bugs at https://github.com/diasurgical/devilutionX/\n");
+	printf("\nReport bugs at https://github.com/lilith645/devilutionX_Refined/\n");
 	diablo_quit(0);
 }
 
@@ -559,14 +559,12 @@ BOOL PressEscKey()
 	return rv;
 }
 
-static void GetMousePos(LPARAM lParam)
-{
+static void GetMousePos(LPARAM lParam) {
 	MouseX = (short)(lParam & 0xffff);
 	MouseY = (short)((lParam >> 16) & 0xffff);
 }
 
-void DisableInputWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
+void DisableInputWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 	case DVL_WM_KEYDOWN:
 	case DVL_WM_KEYUP:
@@ -606,8 +604,7 @@ void DisableInputWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	MainWndProc(hWnd, uMsg, wParam, lParam);
 }
 
-void GM_Game(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
+void GM_Game(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 	case DVL_WM_KEYDOWN:
 		PressKey(wParam);
@@ -696,8 +693,7 @@ void GM_Game(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	MainWndProc(hWnd, uMsg, wParam, lParam);
 }
 
-BOOL LeftMouseDown(int wParam)
-{
+BOOL LeftMouseDown(int wParam) {
 	if (!gmenu_left_mouse(TRUE) && !control_check_talk_btn() && sgnTimeoutCurs == CURSOR_NONE) {
 		if (deathflag) {
 			control_check_btn_press();
@@ -747,8 +743,7 @@ BOOL LeftMouseDown(int wParam)
 	return FALSE;
 }
 
-BOOL LeftMouseCmd(BOOL bShift)
-{
+BOOL LeftMouseCmd(BOOL bShift) {
 	BOOL bNear;
 
 	assert(MouseY < PANEL_TOP || MouseX < PANEL_LEFT || MouseX >= PANEL_LEFT + PANEL_WIDTH);
@@ -820,8 +815,7 @@ BOOL LeftMouseCmd(BOOL bShift)
 	return FALSE;
 }
 
-BOOL TryIconCurs()
-{
+BOOL TryIconCurs() {
 	if (pcurs == CURSOR_RESURRECT) {
 		NetSendCmdParam1(TRUE, CMD_RESURRECT, pcursplr);
 		return TRUE;
@@ -879,8 +873,7 @@ BOOL TryIconCurs()
 	return FALSE;
 }
 
-void LeftMouseUp()
-{
+void LeftMouseUp() {
 	gmenu_left_mouse(FALSE);
 	control_release_talk_btn();
 	if (panbtndown)
@@ -893,8 +886,7 @@ void LeftMouseUp()
 		ReleaseStoreBtn();
 }
 
-void RightMouseDown()
-{
+void RightMouseDown() {
 	if (!gmenu_is_active() && sgnTimeoutCurs == CURSOR_NONE && PauseMode != 2 && !plr[myplr]._pInvincible) {
 		if (doomflag) {
 			doom_close();
@@ -920,16 +912,14 @@ void RightMouseDown()
 	}
 }
 
-BOOL PressSysKey(int wParam)
-{
+BOOL PressSysKey(int wParam) {
 	if (gmenu_is_active() || wParam != DVL_VK_F10)
 		return FALSE;
 	diablo_hotkey_msg(1);
 	return TRUE;
 }
 
-void diablo_hotkey_msg(DWORD dwMsg)
-{
+void diablo_hotkey_msg(DWORD dwMsg) {
 	char szMsg[MAX_SEND_STR_LEN];
 
 	if (gbMaxPlayers == 1) {
@@ -945,16 +935,14 @@ void diablo_hotkey_msg(DWORD dwMsg)
 	NetSendCmdString(-1, szMsg);
 }
 
-void ReleaseKey(int vkey)
-{
+void ReleaseKey(int vkey) {
 	if (vkey == DVL_VK_SNAPSHOT)
 		CaptureScreen();
 	if (vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU)
 		drawitems = false;
 }
 
-void PressKey(int vkey)
-{
+void PressKey(int vkey) {
 	if (gmenu_presskeys(vkey) || control_presskeys(vkey)) {
 		return;
 	}
@@ -1165,8 +1153,7 @@ void PressKey(int vkey)
 	}
 }
 
-void diablo_pause_game()
-{
+void diablo_pause_game() {
 	if (gbMaxPlayers <= 1) {
 		if (PauseMode) {
 			PauseMode = 0;
@@ -1202,8 +1189,7 @@ void SwitchWeapons() {
 /**
  * @internal `return` must be used instead of `break` to be bin exact as C++
  */
-void PressChar(int vkey)
-{
+void PressChar(int vkey) {
 	if (gmenu_is_active() || control_talk_last_key(vkey) || sgnTimeoutCurs != CURSOR_NONE || deathflag) {
 		return;
 	}
@@ -1472,8 +1458,7 @@ void PressChar(int vkey)
 	}
 }
 
-void LoadLvlGFX()
-{
+void LoadLvlGFX() {
 	assert(! pDungeonCels);
 
 	switch (leveltype) {
@@ -1540,8 +1525,7 @@ void LoadLvlGFX()
 	}
 }
 
-void LoadAllGFX()
-{
+void LoadAllGFX() {
 	IncProgress();
 	IncProgress();
 	InitObjectGFX();
@@ -1553,8 +1537,7 @@ void LoadAllGFX()
 /**
  * @param lvldir method of entry
  */
-void CreateLevel(int lvldir)
-{
+void CreateLevel(int lvldir) {
 	switch (leveltype) {
 	case DTYPE_TOWN:
 		CreateTown(lvldir);
@@ -1607,8 +1590,7 @@ void CreateLevel(int lvldir)
 	}
 }
 
-void LoadGameLevel(BOOL firstflag, int lvldir)
-{
+void LoadGameLevel(BOOL firstflag, int lvldir) {
 	int i, j;
 	BOOL visited;
 
@@ -1854,8 +1836,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 		PlaySFX(USFX_SKING1);
 }
 
-void game_loop(BOOL bStartup)
-{
+void game_loop(BOOL bStartup) {
 	int i;
 
 	i = bStartup ? ticks_per_sec * 3 : 3;
@@ -1876,8 +1857,7 @@ void game_loop(BOOL bStartup)
 // Controller support:
 extern void plrctrls_after_game_logic();
 
-void game_logic()
-{
+void game_logic() {
 	if (!ProcessInput()) {
 		return;
 	}
@@ -1913,8 +1893,7 @@ void game_logic()
 	plrctrls_after_game_logic();
 }
 
-void timeout_cursor(BOOL bTimeout)
-{
+void timeout_cursor(BOOL bTimeout) {
 	if (bTimeout) {
 		if (sgnTimeoutCurs == CURSOR_NONE && !sgbMouseDown) {
 			sgnTimeoutCurs = pcurs;
@@ -1934,8 +1913,7 @@ void timeout_cursor(BOOL bTimeout)
 	}
 }
 
-void diablo_color_cyc_logic()
-{
+void diablo_color_cyc_logic() {
 	if (!palette_get_color_cycling())
 		return;
 
