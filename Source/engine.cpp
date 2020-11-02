@@ -1387,10 +1387,9 @@ void DrawXpBar() {
     
     char xp_text[256];
     
-    
-    sprintf(xp_text, "xp: %i/%i", player->_pExperience, curXp);
+    sprintf(xp_text, "xp: %i / %i", player->_pExperience, curXp);
     int x = SCREEN_WIDTH*0.5 - CalculateTextWidth(xp_text)*0.5;//BUFFER_WIDTH*0.4;
-    int y = screen_height-SCREEN_Y-15;
+    int y = screen_height-SCREEN_Y-16;
     PrintGameStr(x, y, (char*)(std::string(xp_text).c_str()), 255);
   }
 }

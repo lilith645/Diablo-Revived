@@ -1207,18 +1207,7 @@ void S_StartBBoy()
 	OffsetSTextY(22, 6);
 }
 
-void S_StartHealer()
-{
-	if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP || plr[myplr]._pMana != plr[myplr]._pMaxMana) {
-		PlaySFX(IS_CAST8);
-	}
-	plr[myplr]._pHitPoints = plr[myplr]._pMaxHP;
-	plr[myplr]._pHPBase = plr[myplr]._pMaxHPBase;
-	
-	drawhpflag = FALSE;
-	plr[myplr]._pMana = plr[myplr]._pMaxMana;
-	plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
-  
+void S_StartHealer() {
 	stextsize = FALSE;
 	stextscrl = FALSE;
 	AddSText(0, 1, TRUE, "Welcome to the", COL_GOLD, FALSE);
@@ -1229,8 +1218,8 @@ void S_StartHealer()
 	AddSText(0, 14, TRUE, "Buy items", COL_WHITE, TRUE);
 	AddSText(0, 16, TRUE, "Leave Healer's home", COL_WHITE, TRUE);
 #else
-	//AddSText(0, 14, TRUE, "Receive healing", COL_WHITE, TRUE);
-	AddSText(0, 14, TRUE, "Buy items", COL_WHITE, TRUE);
+	AddSText(0, 14, TRUE, "Receive healing", COL_WHITE, TRUE);
+	AddSText(0, 16, TRUE, "Buy items", COL_WHITE, TRUE);
 	AddSText(0, 18, TRUE, "Leave Healer's home", COL_WHITE, TRUE);
 #endif
 	AddSLine(5);
@@ -2561,11 +2550,14 @@ void S_HealerEnter()
 		break;
 #else
 	case 14:
-		if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP)
+		if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP || plr[myplr]._pMana != plr[myplr]._pMaxMana)
 			PlaySFX(IS_CAST8);
 		drawhpflag = TRUE;
 		plr[myplr]._pHitPoints = plr[myplr]._pMaxHP;
 		plr[myplr]._pHPBase = plr[myplr]._pMaxHPBase;
+    
+	  plr[myplr]._pMana = plr[myplr]._pMaxMana;
+	  plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
 		break;
 	case 16:
 		StartStore(STORE_HBUY);
