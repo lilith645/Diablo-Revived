@@ -975,8 +975,16 @@ void PressKey(int vkey) {
 	}
 	if (vkey == DVL_VK_ESCAPE) {
 		if (!PressEscKey()) {
-			track_repeat_walk(FALSE);
-			gamemenu_on();
+		  if (helpflag || invflag || chrflag || sbookflag || spselflag) {
+		    helpflag = FALSE;
+		    invflag = FALSE;
+		    chrflag = FALSE;
+		    sbookflag = FALSE;
+		    spselflag = FALSE;
+		  } else {
+			  track_repeat_walk(FALSE);
+			  gamemenu_on();
+			}
 		}
 		return;
 	}

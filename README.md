@@ -9,21 +9,22 @@ Yes, you can compile hellfire and play with all the QOL patches that DevilutionX
 
 # QOL Patches
 
-- Fast run in town
-- Shared xp
-- xp bar
-- Max Gold increased to 10000
-- Items and Gold don't drop on death
-- Unique colour for each player on minimap
-- Gold picks itself up when you walk on it
-- Projectiles can now break barrels
-- When playing as rogue, traps are highlighted
-- Pressing 'Alt' key highlights items
-- Holding left click on enemy continuously attacks
-- Level up noise
-- Fixed Friendly Fire
-- Weapon swap (Press X)
-- Gain max HP and Mana when talking to Pepin
+- Fast run in town.
+- Shared xp.
+- xp bar.
+- Max Gold increased to 10000.
+- Items and Gold don't drop on death.
+- Unique colour for each player on minimap.
+- Gold picks itself up when you walk on it.
+- Projectiles can now break barrels.
+- When playing as rogue, traps are highlighted.
+- Pressing 'Alt' key highlights items.
+- Holding left click on enemy continuously attacks.
+- Level up noise.
+- Fixed Friendly Fire.
+- Weapon swap (Press X).
+- Gain max HP and Mana when talking to Pepin.
+- Pressing escape when any window is open now closes the window instead of bringing up the game menu.
 
 # TODO
 
