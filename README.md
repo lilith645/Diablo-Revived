@@ -1,48 +1,75 @@
-# Refined Edition
-> How is this different from base DevilutionX?
+# Diablo: Revived
+> What is Diablo: Revived?
 
-The Refined Edition includes many QOL patches whilst staying true to the original DevilutionX and will always support for Linux, Mac and Windows.
+Diablo: Revived is a fork of [DevilutionX](https://github.com/diasurgical/devilutionX) that adds many quality of life (QOL) improvements while staying true to the original Diablo. It was born when two friends wanted to play Diablo again, but couldn't find a vanilla multiplayer experience, with QOL improvements, that could run natively on Linux.
+
+> What platforms are supported?
+
+Diablo: Revived will always support the same platforms as DevilutionX, i.e. Linux, Mac, and Windows.
 
 > Can I play Hellfire?
 
-Yes, you can compile hellfire and play with all the QOL patches that DevilutionX Refined provides.
+Yes, but you will need to compile with the flag '-DHELLFIRE=ON' and add hellfire.mpq, hfmonk.mpq, hfmusic.mpq. and hfvoice.mpq to the same directory as the DevilutionX executable.
 
-# QOL Patches
+> What makes Diablo: Revived different from [Infernity](https://github.com/qndel/Infernity)?
 
-- Fast run in town.
-- Shared xp.
-- xp bar.
-- Max Gold increased to 10000.
-- Items and Gold don't drop on death.
-- Unique colour for each player on minimap.
-- Gold picks itself up when you walk on it.
-- Projectiles can now break barrels.
-- When playing as rogue, traps are highlighted.
-- Pressing 'Alt' key highlights items.
-- Holding left click on enemy continuously attacks.
-- Level up noise.
-- Fixed Friendly Fire.
-- Weapon swap (Press X).
-- Gain max HP and Mana when talking to Pepin.
-- Pressing escape when any window is open now closes the window instead of bringing up the game menu.
+- Based on the latest version of DevilutionX as of 02/11/2020 (that's November for you 'Muricans).
+- Supports Linux, Mac, and Windows.
+- No additional difficulty level or the additional items found therein.
+- Fewer changes overall, but several QOL improvements not featured in Infernity.
+
+None of this is to say that Diablo: Revived is a better mod. Infernity is a fantastic vanilla-like experience, and you should try it and decide which mod you prefer for yourself.
+
+You can find Infernity (here)[https://github.com/qndel/Infernity].
+
+# Global QOL Changes
+- Increased walking speed in town by 100%
+- Added XP bar (mouse hover to see current XP and XP required for next level)
+- Max gold pile size increased to 50,000
+- Automatically pick up gold by walking over it
+- When playing as a Rogue, traps are automatically highlighted
+- Pressing 'alt' key highlights ground items
+- Holding left click while attacking now attacks continuously
+- Projectiles can now break barrels
+- A triumphant sound now plays on level up
+- Added alternate weapon sets, swap by pressing X
+- Pepin now restores both life and mana
+- Pressing escape when any window is open now closes all windows insead of bringing up the game menu
+- Enemy health bar and type displayed on mouse hover
+- Automap minimum zoom level increased
+
+# Multiplayer QOL Changes
+- Items and gold no longer drop on death
+- Other players are now visible on automap, each with a unique colour
+- XP from slain monsters given to all players equally (not split)
+- Removed friendly fire
 
 # TODO
+Add a config file that allows players to customise their experience, including options to:
 
-- [ ] Option for Gold pickup evenly distrubuted between all players.
-- [ ] Option to enable Item and Gold drop on death.
-- [ ] Option to disable automatic gold pickup.
-- [ ] Option to disable Rogue trap highligh.
-- [ ] Option to disable automatic hp and mana refill when talking to pepin.
+- [ ] Change the max size of gold piles (with fair warning)
+- [ ] Change the amount of XP shared between players
+- [ ] Distribute gold evenly among all players
+- [ ] Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
 
-# How To Play:
- - Build from source
- - Copy diabdat.mpq from your CD or GoG installation (or [extract it from the GoG installer](https://github.com/diasurgical/devilutionX/wiki/Extracting-the-DIABDAT.MPQ-from-the-GoG-installer)) to the DevilutionX install folder or data folder; make sure it is all lowercase. The DevilutionX install folder is the one that contains the DevilutionX executable. The data folder path may differ depending on OS version and security settings, but will normally be as follows:
+... and options to toggle:
+
+- [ ] Items and gold dropping on death
+- [ ] Friendly fire
+- [ ] Rogue trap highlighting
+- [ ] Auto gold pick up
+- [ ] Projectiles destroying barrels
+- [ ] Level up sound
+
+# How to Play:
+- Build from source (precompiled releases to come in future)
+- Copy diabdat.mpq from your CD or GoG installation (or [extract it from the GoG installer](https://github.com/diasurgical/devilutionX/wiki/Extracting-the-DIABDAT.MPQ-from-the-GoG-installer)) to the DevilutionX install folder or data folder; make sure it is all lowercase. The DevilutionX install folder is the one that contains the DevilutionX executable. The data folder path may differ depending on OS version and security settings, but will normally be as follows:
     - macOS `~/Library/Application Support/diasurgical/devilution`
     - Linux `~/.local/share/diasurgical/devilution/`
     - Windows `C:\Users\[username]\AppData\Roaming\diasurgical\devilution`
- - Install [SDL2](https://www.libsdl.org/download-2.0.php), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) (included in macOS and Windows releases):
+- Install [SDL2](https://www.libsdl.org/download-2.0.php), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) (included in macOS and Windows releases):
     - Ubuntu/Debian/Rasbian `sudo apt-get install libsdl2-ttf-2.0-0 libsdl2-mixer-2.0-0`
- - Run `./devilutionx`
+- Run `./devilutionx`
 
 # Building from Source
 <details><summary>Linux</summary>
@@ -319,8 +346,8 @@ select Icons -> Information in the top menu.
 </details>
 
 # Multiplayer
- - TCP/IP only requires the host to expose port 6112
- - UDP/IP requires that all players expose port 6112
+- TCP/IP only requires the host to expose port 6112
+- UDP/IP requires that all players expose port 6112
 
 All games are encrypted and password protected.
 
@@ -353,39 +380,41 @@ variable (see
 [SDL_GameControllerDB](https://github.com/gabomdq/SDL_GameControllerDB)).
 
 # Contributing
-[Guidelines](docs/CONTRIBUTING.md)
+Refer to the contribution [guidelines](docs/CONTRIBUTING.md).
 
-# F.A.Q.
+# DevilutionX F.A.Q.
+
 > Wow, does this mean I can download and play Diablo for free now?
 
 No, you'll need access to the data from the original game. If you don't have an original CD then you can [buy Diablo from GoG.com](https://www.gog.com/game/diablo). Alternately you can use `spawn.mpq` from the [http://ftp.blizzard.com/pub/demos/diablosw.exe](shareware) version to play the shareware portion of the game.
 > What game changes does DevilutionX provide
 
 DevilutionX's main focus is to make the game work on multiple platforms. An additional goal is to make the engine mod friendly. As such, there are no changes to gameplay, but we will be making some enhancments to the engine itself. For example, the engine now has upscaling, unlocked fps, controller support, and multiplayer via TCP.
+
 > Is 1080p supported?
 
 Yes, the game will automatically adjust to your screen. This can be further adjusted in the game ini file.
-> What about Hellfire?
 
-Hellfire is being worked on and is mostly done, though not fully playable at the moment.
 > Does it work with Battle.net?
 
 Battle.net is a service provided by Blizzard. We are not associated with them, so we have not worked on intergrating with their service.
-</details>
 
 # Credits
 - The original Devilution project [Devilution](https://github.com/diasurgical/devilution#credits)
 - [Everyone](https://github.com/diasurgical/devilutionX/graphs/contributors) who worked on Devilution/DevilutionX
-- And a thanks to all who support the project, report bugs and help spread the word <3
+- Bits and pieces from:
+    - [Manuel-K](https://github.com/Manuel-K/devilutionX-QOL-patches)
+    - [Majek](https://github.com/majek/devilutionX)
+    - [Rafal-kowalski](https://github.com/rafal-kowalski/devilutionX/tree/more-qol)
 
-# Changelog
+# DevilutionX Changelog
 [From the beginning until release](docs/CHANGELOG.md)
 
 # Legal
-DevilutionX is released to the Public Domain. The documentation and functionality provided by DevilutionX may only be utilized with assets provided by ownership of Diablo.
+Diablo: Revived is released to the Public Domain. The documentation and functionality provided by Diablo: Revived may only be utilized with assets provided by ownership of Diablo.
 
 The source code in this repository is for non-commerical use only. If you use the source code you may not charge others for access to it or any derivative work thereof.
 
 Diablo® - Copyright © 1996 Blizzard Entertainment, Inc. All rights reserved. Diablo and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.
 
-DevilutionX and any of its maintainers are in no way associated with or endorsed by Blizzard Entertainment®.
+Diablo: Revived and any of its maintainers are in no way associated with or endorsed by Blizzard Entertainment®.
