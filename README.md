@@ -3,6 +3,10 @@
 
 The Refined Edition includes many QOL patches whilst staying true to the original DevilutionX and will always support for Linux, Mac and Windows.
 
+> Can I play Hellfire?
+
+Yes, you can compile hellfire and play with all the QOL patches that DevilutionX Refined provides.
+
 # QOL Patches
 
 - Fast run in town
