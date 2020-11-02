@@ -45,6 +45,12 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 - Removed friendly fire
 
 # TODO
+Additional QOL improvements:
+- [ ] shift + click on potions to add them to your belt
+- [ ] ctrl + click an item to drop it
+- [ ] Mouse hover over life/mana orbs to show current/max life/man, click to toggle
+- [ ] Make shop selection stay after buying an item
+
 Add a config file that allows players to customise their experience, including options to:
 
 - [ ] Change the max size of gold piles (with fair warning)
@@ -403,6 +409,7 @@ Battle.net is a service provided by Blizzard. We are not associated with them, s
 - The original [Devilution](https://github.com/diasurgical/devilution#credits) project
 - [Everyone](https://github.com/diasurgical/devilutionX/graphs/contributors) who worked on Devilution/DevilutionX
 - Bits and pieces from:
+    - [qndel](https://github.com/qndel/Infernity)
     - [Manuel-K](https://github.com/Manuel-K/devilutionX-QOL-patches)
     - [Majek](https://github.com/majek/devilutionX)
     - [Rafal-kowalski](https://github.com/rafal-kowalski/devilutionX/tree/more-qol)
