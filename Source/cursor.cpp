@@ -352,8 +352,8 @@ void CheckCursMove()
 		return;
 	}
 	
-	if (MouseX > XPBAR_LEFT-XPBAR_WIDTH*0.2 && MouseX < XPBAR_RIGHT+XPBAR_WIDTH*0.8 &&
-	    MouseY > SCREEN_HEIGHT-(XPBAR_HEIGHT+XPBAR_BORDER)*2.0) {
+	if (MouseX > XPBAR_X && MouseX < XPBAR_X+XPBAR_WIDTH &&
+	    MouseY > XPBAR_Y-XPBAR_HEIGHT*0.5) {
 	  pcursxp = 1;
 	}
 	

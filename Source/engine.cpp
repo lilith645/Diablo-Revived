@@ -1310,16 +1310,38 @@ void ColorPixel(int x, int y, int color) {
 	WorkingSurface[y*BUFFER_WIDTH+x] = color;
 }
 
+inline void FastDrawHorizLine(int x, int y, int width, BYTE col)
+{
+	memset(&gpBuffer[SCREENXY(x, y)], col, width);
+}
+
+inline void FastDrawVertLine(int x, int y, int height, BYTE col)
+{
+	BYTE *p = &gpBuffer[SCREENXY(x, y)];
+	for (int j = 0; j < height; j++) {
+		*p = col;
+		p += BUFFER_WIDTH;
+	}
+}
+
+inline void FillRect(int x, int y, int width, int height, BYTE col)
+{
+	for (int j = 0; j < height; j++) {
+		FastDrawHorizLine(x, y + j, width, col);
+	}
+}
+
+inline void FillSquare(int x, int y, int size, BYTE col)
+{
+	FillRect(x, y, size, size, col);
+}
+
 void DrawXpBar() {
   int barColor = PAL8_YELLOW+4;//PAL8_ORANGE+7;//PAL16_BLUE+3;//242;
   int backgroundColor = 0;//PAL8_YELLOW+6;//COLOUR_CUSTOM_PAL16_GRAY+2;//COLOUR_CUSTOM_PAL16_LIGHT_GRAY+7;//182;
   int borderColor = PAL8_ORANGE+7;//0;
   int segmentColor = COLOUR_CUSTOM_GRAY;
-  /*for (int i = 0; i < 300; ++i) {
-		for (int j = 0; j < 1; ++j) {
-			ColorPixel(500.0 + i, 980.0 + j, barColor);
-		}
-	}*/
+  
 	int left_background = PAL8_YELLOW+6;
 	int top_background = PAL8_YELLOW+5;
 	
@@ -1334,108 +1356,40 @@ void DrawXpBar() {
 	
 	charLevel = player->_pLevel;
 	
-
-	// Background + border
-	for (int i = 0; i < XPBAR_WIDTH; ++i) {
-    for (int j = 0; j < XPBAR_THICKNESS; ++j) {
-      int full_bar = XPBAR_LEFT+i;
-      
-     /* if (j == 0 || j >= XPBAR_THICKNESS+XPBAR_BORDER*2.0-1 ||
-          i == 0 || i >= XPBAR_WIDTH+XPBAR_BORDER*2.0-1) {
-        ColorPixel(full_bar-XPBAR_BORDER, XPBAR_Y+j-XPBAR_BORDER, borderColor);
-      } else {*/
-      
-	    //  ColorPixel(full_bar-XPBAR_BORDER, XPBAR_Y+j-XPBAR_BORDER, backgroundColor);
-	    //}
-	    bool in_segment = false;
-	    for (int k = 0; k < XPBAR_SEGMENTS-1; ++k) {
-	     // int segment = XPBAR_LEFT+XPBAR_WIDTH*0.05+XPBAR_WIDTH*0.05*k-1;
-	      int segment1 = XPBAR_LEFT+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE*k;
-	      int segment2 = XPBAR_LEFT+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE*k+1;
-	      if (segment1 == full_bar || segment2 == full_bar) {
-	        in_segment = true;
-	        break;
-	      }
-	    }
-	    
-	    if (!in_segment) {
-	      ColorPixel(full_bar, XPBAR_Y+j, backgroundColor);
-	    }
-    }
-  }
-	
-	// Draw xp progress
-	curXp = ExpLvlsTbl[charLevel];
-	if (charLevel != 50) {
-	  prevXp = ExpLvlsTbl[charLevel - 1];
-	  nextXp = ExpLvlsTbl[charLevel + 1];
-	  prevXpDelta = curXp - prevXp;
-	  prevXpDelta_1 = player->_pExperience - prevXp;
-	  if (player->_pExperience >= prevXp) {
-		  visibleBar = XPBAR_WIDTH*(unsigned __int64)prevXpDelta_1 / prevXpDelta;
-	  
-	    for (int i = 0; i < visibleBar; ++i) {
-		    for (int j = 0; j < XPBAR_THICKNESS; ++j) {
-		      int full_bar = XPBAR_LEFT+i;
-		      
-		      bool in_segment = false;
-	        for (int k = 0; k < XPBAR_SEGMENTS-1; ++k) {
-	          //int segment = XPBAR_LEFT+XPBAR_WIDTH*0.05+XPBAR_WIDTH*0.05*k-1;
-	          int segment1 = XPBAR_LEFT+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE*k;
-	          int segment2 = XPBAR_LEFT+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE+XPBAR_WIDTH*XPBAR_SEGMENT_SIZE*k+1;
-	          if (segment1 == full_bar || segment2 == full_bar) {
-	            in_segment = true;
-	            break;
-	          }
-	        }
-	        
-	        if (!in_segment) {
-	          ColorPixel(full_bar, XPBAR_Y+j, barColor);
-	        }
-		    }
-	    }
-	  }
+	for (int k = 0; k < XPBAR_SEGMENTS; ++k) {
+	  int offset = (XPBAR_SEGMENT_SIZE)*k + XPBAR_SEGMENT_SPACING*k;
+    FillRect(XPBAR_X+offset, XPBAR_Y, XPBAR_SEGMENT_SIZE, XPBAR_HEIGHT, backgroundColor);
 	}
-	/*
-	for (int i = 0; i < 5; ++i) {
-    for (int j = 0; j < XPBAR_THICKNESS+1; ++j) {
-      int full_bar = XPBAR_LEFT-i;
-      ColorPixel(full_bar, XPBAR_Y+j, left_background);
-      
-      full_bar = XPBAR_LEFT+XPBAR_WIDTH-i;
-      ColorPixel(full_bar, XPBAR_Y+j, left_background);
-    }
-  }
-  
-  for (int i = 0; i < XPBAR_WIDTH; ++i) {
-    for (int j = 0; j < 1; ++j) {
-      int full_bar = XPBAR_LEFT+i;
-      ColorPixel(full_bar, XPBAR_Y+XPBAR_THICKNESS+j, left_background);
-      ColorPixel(full_bar, XPBAR_Y-j, top_background);
-      
-      //full_bar = XPBAR_LEFT+XPBAR_WIDTH-i;
-     // ColorPixel(full_bar, XPBAR_Y+j-3, left_background);
-    }
-  }*/
 	
-	
-	/*
-	// Draw xp segments
-	for (int i = 0; i < XPBAR_SEGMENTS-1; ++i) {
-    for (int j = 0; j < XPBAR_THICKNESS+XPBAR_BORDER*2.0; ++j) {
-      int full_bar = XPBAR_LEFT+XPBAR_WIDTH*0.05+XPBAR_WIDTH*0.05*i;
-	    ColorPixel(full_bar, XPBAR_Y+j-XPBAR_BORDER, segmentColor);
-	    ColorPixel(full_bar+1, XPBAR_Y+j-XPBAR_BORDER, segmentColor);
+  curXp = ExpLvlsTbl[charLevel];
+  if (charLevel != 50) {
+    prevXp = ExpLvlsTbl[charLevel - 1];
+    nextXp = ExpLvlsTbl[charLevel + 1];
+    prevXpDelta = curXp - prevXp;
+    prevXpDelta_1 = player->_pExperience - prevXp;
+    visibleBar = XPBAR_WIDTH*(unsigned __int64)prevXpDelta_1 / prevXpDelta;
+    for (int k = 0; k < XPBAR_SEGMENTS; ++k) {
+      int offset = (XPBAR_SEGMENT_SIZE)*k + XPBAR_SEGMENT_SPACING*k;
+      int x = XPBAR_X+offset;
+      
+      if (visibleBar > offset) {
+        if (visibleBar > offset+XPBAR_SEGMENT_SIZE) {
+          FillRect(x, XPBAR_Y, XPBAR_SEGMENT_SIZE, XPBAR_HEIGHT, barColor);
+        } else {
+          FillRect(x, XPBAR_Y, XPBAR_SEGMENT_SIZE-(offset+XPBAR_SEGMENT_SIZE-visibleBar), XPBAR_HEIGHT, barColor);
+        }
+      }
     }
-  }*/
-  
+	}
+	
   if (pcursxp != -1) {
     int screen_height = SCREEN_HEIGHT+SCREEN_Y;
     
     char xp_text[256];
     
+    
     sprintf(xp_text, "xp: %i/%i", player->_pExperience, curXp);
-    int x = BUFFER_WIDTH*0.4;
+    int x = SCREEN_WIDTH*0.5 - CalculateTextWidth(xp_text)*0.5;//BUFFER_WIDTH*0.4;
     int y = screen_height-SCREEN_Y-15;
     PrintGameStr(x, y, (char*)(std::string(xp_text).c_str()), 255);
   }
