@@ -16,7 +16,7 @@ Yes, but you will need to compile with the flag '-DHELLFIRE=ON' and add hellfire
 - Based on the latest version of DevilutionX as of 02/11/2020 (that's November for you 'Muricans)
 - Supports Linux, Mac, and Windows
 - No additional difficulty level or the additional items found therein
-- Fewer changes overall, but several QOL improvements not featured in Infernity
+- Several QOL improvements not featured in Infernity
 
 None of this is to say that Diablo: Revived is a better mod. Infernity is a fantastic vanilla-like experience, and you should try it and decide which mod you prefer for yourself.
 
