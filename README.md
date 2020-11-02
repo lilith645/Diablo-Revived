@@ -400,7 +400,7 @@ Yes, the game will automatically adjust to your screen. This can be further adju
 Battle.net is a service provided by Blizzard. We are not associated with them, so we have not worked on intergrating with their service.
 
 # Credits
-- The original Devilution project [Devilution](https://github.com/diasurgical/devilution#credits)
+- The original [Devilution](https://github.com/diasurgical/devilution#credits) project
 - [Everyone](https://github.com/diasurgical/devilutionX/graphs/contributors) who worked on Devilution/DevilutionX
 - Bits and pieces from:
     - [Manuel-K](https://github.com/Manuel-K/devilutionX-QOL-patches)
