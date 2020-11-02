@@ -6,12 +6,12 @@
 
 #ifdef HELLFIRE
 #define DIABOOL					BOOLEAN
-#define GAME_NAME				"HELLFIRE"
-#define APP_NAME				"Hellfire"
+#define GAME_NAME				"HELLFIRE: REVIVED"
+#define APP_NAME				"Hellfire: revived"
 #else
 #define DIABOOL					BOOL
-#define GAME_NAME				"DIABLO_REFINED"
-#define APP_NAME				"Diablo_Refined"
+#define GAME_NAME				"DIABLO: REVIVED"
+#define APP_NAME				"Diablo: Revived"
 #endif
 
 #ifdef HELLFIRE

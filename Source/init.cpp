@@ -64,7 +64,7 @@ HANDLE init_test_access(const char *mpq_name, const char *reg_loc, int dwPriorit
 /* data */
 
 char gszVersionNumber[260] = "internal version unknown";
-char gszProductName[260] = "DevilutionX_Refined v1.0";
+char gszProductName[260] = "Diablo: Revived v1.1";
 
 void init_cleanup()
 {
