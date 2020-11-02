@@ -242,8 +242,7 @@ BOOL pfile_ui_set_hero_infos(BOOL(*ui_add_hero_info)(_uiheroinfo *))
 	return TRUE;
 }
 
-BOOL pfile_read_hero(HANDLE archive, PkPlayerStruct *pPack)
-{
+BOOL pfile_read_hero(HANDLE archive, PkPlayerStruct *pPack) {
 	HANDLE file;
 	DWORD dwlen;
 	BYTE *buf;

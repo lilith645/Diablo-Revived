@@ -2508,17 +2508,6 @@ typedef enum interface_mode {
 	// WM_DIAVNEWLVL = 0x40D, // psx only
 } interface_mode;
 
-typedef enum lvl_entry {
-	ENTRY_MAIN    = 0,
-	ENTRY_PREV    = 1,
-	ENTRY_SETLVL  = 2,
-	ENTRY_RTNLVL  = 3,
-	ENTRY_LOAD    = 4,
-	ENTRY_WARPLVL = 5,
-	ENTRY_TWARPDN = 6,
-	ENTRY_TWARPUP = 7,
-} lvl_entry;
-
 typedef enum game_info {
 	GAMEINFO_NAME         = 1,
 	GAMEINFO_PASSWORD     = 2,
@@ -3286,6 +3275,8 @@ typedef enum inv_body_loc {
 	INVLOC_HAND_LEFT  = 4,
 	INVLOC_HAND_RIGHT = 5,
 	INVLOC_CHEST      = 6,
+	INVLOC_HAND2_LEFT  = 7,
+	INVLOC_HAND2_RIGHT = 8,
 	NUM_INVLOC,
 } inv_body_loc;
 
@@ -3298,6 +3289,8 @@ typedef enum inv_item {
 	INVITEM_HAND_RIGHT = 5,
 	INVITEM_CHEST      = 6,
 	INVITEM_INV_FIRST  = 7,
+	INVITEM_HAND2_LEFT  = 8,
+	INVITEM_HAND2_RIGHT = 9,
 	INVITEM_INV_LAST   = 46,
 	INVITEM_BELT_FIRST = 47,
 	INVITEM_BELT_LAST  = 54,

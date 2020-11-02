@@ -31,6 +31,7 @@ BOOL gbGameLoopStartup;
 BOOL gbRunGame;
 BOOL gbRunGameResult;
 BOOL zoomflag;
+bool drawitems;
 BOOL gbProcessPlayers;
 BOOL gbLoadGame;
 int DebugMonsters[10];
@@ -757,8 +758,10 @@ BOOL LeftMouseCmd(BOOL bShift)
 			NetSendCmdLocParam1(TRUE, invflag ? CMD_GOTOGETITEM : CMD_GOTOAGETITEM, cursmx, cursmy, pcursitem);
 		if (pcursmonst != -1)
 			NetSendCmdLocParam1(TRUE, CMD_TALKXY, cursmx, cursmy, pcursmonst);
-		if (pcursitem == -1 && pcursmonst == -1 && pcursplr == -1)
+		if (pcursitem == -1 && pcursmonst == -1 && pcursplr == -1) {
+			track_lmb_loc(CMD_WALKXY, cursmx, cursmy);
 			return TRUE;
+		}
 	} else {
 		bNear = abs(plr[myplr]._px - cursmx) < 2 && abs(plr[myplr]._py - cursmy) < 2;
 		if (pcursitem != -1 && pcurs == CURSOR_HAND && !bShift) {
@@ -767,12 +770,18 @@ BOOL LeftMouseCmd(BOOL bShift)
 			NetSendCmdLocParam1(TRUE, pcurs == CURSOR_DISARM ? CMD_DISARMXY : CMD_OPOBJXY, cursmx, cursmy, pcursobj);
 		} else if (plr[myplr]._pwtype == WT_RANGED) {
 			if (bShift) {
-				NetSendCmdLoc(TRUE, CMD_RATTACKXY, cursmx, cursmy);
+				//NetSendCmdLoc(TRUE, CMD_RATTACKXY, cursmx, cursmy);
+				track_lmb_loc(CMD_RATTACKXY, cursmx, cursmy);
+				return TRUE;
 			} else if (pcursmonst != -1) {
 				if (CanTalkToMonst(pcursmonst)) {
-					NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+					//NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+					track_lmb_param1(CMD_ATTACKID, pcursmonst);
+					return TRUE;
 				} else {
-					NetSendCmdParam1(TRUE, CMD_RATTACKID, pcursmonst);
+					//NetSendCmdParam1(TRUE, CMD_RATTACKID, pcursmonst);
+					track_lmb_param1(CMD_RATTACKID, pcursmonst);
+					return TRUE;
 				}
 			} else if (pcursplr != -1 && !FriendlyMode) {
 				NetSendCmdParam1(TRUE, CMD_RATTACKPID, pcursplr);
@@ -781,21 +790,31 @@ BOOL LeftMouseCmd(BOOL bShift)
 			if (bShift) {
 				if (pcursmonst != -1) {
 					if (CanTalkToMonst(pcursmonst)) {
-						NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+						//NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+						track_lmb_param1(CMD_ATTACKID, pcursmonst);
+						return TRUE;
 					} else {
-						NetSendCmdLoc(TRUE, CMD_SATTACKXY, cursmx, cursmy);
+						//NetSendCmdLoc(TRUE, CMD_SATTACKXY, cursmx, cursmy);
+						track_lmb_loc(CMD_SATTACKXY, cursmx, cursmy);
+						return TRUE;
 					}
 				} else {
-					NetSendCmdLoc(TRUE, CMD_SATTACKXY, cursmx, cursmy);
+					//NetSendCmdLoc(TRUE, CMD_SATTACKXY, cursmx, cursmy);
+					track_lmb_loc(CMD_SATTACKXY, cursmx, cursmy);
+					return TRUE;
 				}
 			} else if (pcursmonst != -1) {
-				NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+				//NetSendCmdParam1(TRUE, CMD_ATTACKID, pcursmonst);
+				track_lmb_param1(CMD_ATTACKID, pcursmonst);
+				return TRUE;
 			} else if (pcursplr != -1 && !FriendlyMode) {
 				NetSendCmdParam1(TRUE, CMD_ATTACKPID, pcursplr);
 			}
 		}
-		if (!bShift && pcursitem == -1 && pcursobj == -1 && pcursmonst == -1 && pcursplr == -1)
+		if (!bShift && pcursitem == -1 && pcursobj == -1 && pcursmonst == -1 && pcursplr == -1) {
+			track_lmb_loc(CMD_WALKXY, cursmx, cursmy);
 			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -930,6 +949,8 @@ void ReleaseKey(int vkey)
 {
 	if (vkey == DVL_VK_SNAPSHOT)
 		CaptureScreen();
+	if (vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU)
+		drawitems = false;
 }
 
 void PressKey(int vkey)
@@ -1108,6 +1129,8 @@ void PressKey(int vkey)
 		if (stextflag) {
 			STextNext();
 		}
+	} else if(vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU) {
+		drawitems = true;
 	} else if (vkey == DVL_VK_LEFT) {
 		if (automapflag && !talkflag) {
 			AutomapLeft();
@@ -1153,6 +1176,26 @@ void diablo_pause_game()
 			track_repeat_walk(FALSE);
 		}
 		force_redraw = 255;
+	}
+}
+
+void SwitchWeapons() {
+	if (plr[myplr]._pmode != PM_ATTACK && plr[myplr]._pmode != PM_RATTACK && 
+	    plr[myplr]._pmode != PM_BLOCK && plr[myplr]._pmode != PM_SPELL && 
+	    plr[myplr]._pmode != PM_DEATH && plr[myplr]._pmode != PM_WALK && 
+	    plr[myplr]._pmode != PM_WALK2 && plr[myplr]._pmode != PM_WALK3) {
+		ItemStruct wtf = plr[myplr].InvBody[INVLOC_HAND_LEFT];
+		ItemStruct wtf2 = plr[myplr].InvBody[INVLOC_HAND_RIGHT];
+
+		plr[myplr].InvBody[INVLOC_HAND_LEFT] = plr[myplr].alternateWeapons[0];
+		plr[myplr].InvBody[INVLOC_HAND_RIGHT] = plr[myplr].alternateWeapons[1];
+
+		plr[myplr].alternateWeapons[0] = wtf;
+		plr[myplr].alternateWeapons[1] = wtf2;
+		
+		plr[myplr].currentWeaponSet = (plr[myplr].currentWeaponSet == 0 ? 1 : 0);
+		CalcPlrInv(myplr, 1);
+		PlaySFX(IS_TITLEMOV);
 	}
 }
 
@@ -1280,6 +1323,10 @@ void PressChar(int vkey)
 	case 'V':
 		NetSendCmdString(1 << myplr, gszVersionNumber);
 		return;
+	case 'x':
+	case 'X':
+	  SwitchWeapons();
+	  return;
 	case '!':
 	case '1':
 		if (plr[myplr].SpdList[0]._itype != ITYPE_NONE && plr[myplr].SpdList[0]._itype != ITYPE_GOLD) {
@@ -1597,7 +1644,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 	IncProgress();
 	InitAutomap();
 
-	if (leveltype != DTYPE_TOWN && lvldir != ENTRY_LOAD) {
+	if (leveltype != DTYPE_TOWN && lvldir != 4) {
 		InitLighting();
 		InitVision();
 	}
@@ -1625,9 +1672,9 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 
 		IncProgress();
 
-		if (lvldir == ENTRY_RTNLVL)
+		if (lvldir == 3)
 			GetReturnLvlPos();
-		if (lvldir == ENTRY_WARPLVL)
+		if (lvldir == 5)
 			GetPortalLvlPos();
 
 		IncProgress();
@@ -1635,7 +1682,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 		for (i = 0; i < MAX_PLRS; i++) {
 			if (plr[i].plractive && currlevel == plr[i].plrlevel) {
 				InitPlayerGFX(i);
-				if (lvldir != ENTRY_LOAD)
+				if (lvldir != 4)
 					InitPlayer(i, firstflag);
 			}
 		}
@@ -1653,7 +1700,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 		SetRndSeed(glSeedTbl[currlevel]);
 
 		if (leveltype != DTYPE_TOWN) {
-			if (firstflag || lvldir == ENTRY_LOAD || !plr[myplr]._pLvlVisited[currlevel] || gbMaxPlayers != 1) {
+			if (firstflag || lvldir == 4 || !plr[myplr]._pLvlVisited[currlevel] || gbMaxPlayers != 1) {
 				HoldThemeRooms();
 				glMid1Seed[currlevel] = GetRndSeed();
 				InitMonsters();
@@ -1695,7 +1742,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 			InitMissiles();
 			IncProgress();
 
-			if (!firstflag && lvldir != ENTRY_LOAD && plr[myplr]._pLvlVisited[currlevel] && gbMaxPlayers == 1)
+			if (!firstflag && lvldir != 4 && plr[myplr]._pLvlVisited[currlevel] && gbMaxPlayers == 1)
 				LoadLevel();
 			if (gbMaxPlayers != 1)
 				DeltaLoadLevel();
@@ -1720,14 +1767,14 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 		FillSolidBlockTbls();
 		IncProgress();
 
-		if (lvldir == ENTRY_WARPLVL)
+		if (lvldir == 5)
 			GetPortalLvlPos();
 		IncProgress();
 
 		for (i = 0; i < MAX_PLRS; i++) {
 			if (plr[i].plractive && currlevel == plr[i].plrlevel) {
 				InitPlayerGFX(i);
-				if (lvldir != ENTRY_LOAD)
+				if (lvldir != 4)
 					InitPlayer(i, firstflag);
 			}
 		}
@@ -1736,7 +1783,7 @@ void LoadGameLevel(BOOL firstflag, int lvldir)
 		InitMultiView();
 		IncProgress();
 
-		if (firstflag || lvldir == ENTRY_LOAD || !plr[myplr]._pSLvlVisited[setlvlnum]) {
+		if (firstflag || lvldir == 4 || !plr[myplr]._pSLvlVisited[setlvlnum]) {
 			InitItems();
 			SavePreLighting();
 		} else {

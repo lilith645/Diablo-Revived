@@ -3,8 +3,50 @@
  *
  * Various global structures.
  */
+ 
+ #include <string>
 
 DEVILUTION_BEGIN_NAMESPACE
+
+
+class FloatingText {
+public:
+	std::string text;
+	int color;
+	int iterations;
+	int angle;//0-360
+	int posX, posY;
+	bool showOnCenter;
+	int callerID;
+	int value;
+	std::string description;
+
+	void doStuff(std::string s, int c, int px, int py, bool center, int cc, std::string desc, int v) {
+		text = s;
+		color = c;
+		iterations = 0;
+		angle = -60 + (rand() % 121) + 180 * (rand() % 2); //angle = 60 + rand() % 61;
+		showOnCenter = center;
+		posX = px;
+		posY = py;
+		callerID = cc;
+		description = desc;
+		value = v;
+	}
+
+	FloatingText(std::string s, int c, int px, int py, bool center, int cc, std::string desc, int v) {
+		doStuff(s, c, px, py, center, cc, desc, v);
+	}
+
+	FloatingText(std::string s, int c, std::string desc) {
+		doStuff(s, c, 0, 0, true, -1, desc, -1);
+	}
+
+
+
+
+	void IncreaseIterations() { iterations++; }
+};
 
 //////////////////////////////////////////////////
 // control
@@ -352,6 +394,8 @@ typedef struct PlayerStruct {
 	DWORD pDiabloKillLevel;
 	int pDifficulty;
 	int pDamAcFlags;
+	ItemStruct alternateWeapons[2];
+	int currentWeaponSet;
 	int dwReserved[5];
 	unsigned char *_pNData;
 	unsigned char *_pWData;
@@ -1494,6 +1538,8 @@ typedef struct PkPlayerStruct {
 	int pDifficulty;
 	int pDamAcFlags;
 	int dwReserved[5];
+	PkItemStruct alternateWeapons[2];
+	int currentWeaponSet;
 } PkPlayerStruct;
 #pragma pack(pop)
 

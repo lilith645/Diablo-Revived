@@ -37,6 +37,8 @@ int stextsel;
 char stextscrldbtn;
 int gossipend;
 BYTE *pSPentSpn2Cels;
+BYTE PentSpn2Frame;
+DWORD PentSpn2Tick;
 int stextsval;
 int boylevel;
 ItemStruct smithitem[SMITH_ITEMS];
@@ -66,6 +68,7 @@ void InitStores()
 	pSTextSlidCels = LoadFileInMem("Data\\TextSlid.CEL", NULL);
 	ClearSText(0, STORE_LINES);
 	stextflag = STORE_NONE;
+	PentSpn2Frame = 1;
 	stextsize = FALSE;
 	stextscrl = FALSE;
 	numpremium = 0;
@@ -78,9 +81,13 @@ void InitStores()
 	boylevel = 0;
 }
 
-int PentSpn2Spin()
+void PentSpn2Spin()
 {
-	return (SDL_GetTicks() / 50) % 8 + 1;
+	DWORD ticks = SDL_GetTicks();
+	if (ticks - PentSpn2Tick > 50) {
+		PentSpn2Frame = (PentSpn2Frame & 7) + 1;
+		PentSpn2Tick = ticks;
+	}
 }
 
 void SetupTownStores()
@@ -156,7 +163,7 @@ void PrintSString(int x, int y, BOOL cjustflag, const char *str, char col, int v
 		sx += k;
 	}
 	if (stextsel == y) {
-		CelDraw(cjustflag ? xx + x + k - 20 : xx + x - 20, s + 45 + SCREEN_Y + UI_OFFSET_Y, pSPentSpn2Cels, PentSpn2Spin(), 12);
+		CelDraw(cjustflag ? xx + x + k - 20 : xx + x - 20, s + 45 + SCREEN_Y + UI_OFFSET_Y, pSPentSpn2Cels, PentSpn2Frame, 12);
 	}
 	for (i = 0; i < len; i++) {
 		c = fontframe[gbFontTransTbl[(BYTE)str[i]]];
@@ -178,7 +185,7 @@ void PrintSString(int x, int y, BOOL cjustflag, const char *str, char col, int v
 		}
 	}
 	if (stextsel == y) {
-		CelDraw(cjustflag ? (xx + x + k + 4) : (PANEL_X + 596 - x), s + 45 + SCREEN_Y + UI_OFFSET_Y, pSPentSpn2Cels, PentSpn2Spin(), 12);
+		CelDraw(cjustflag ? (xx + x + k + 4) : (PANEL_X + 596 - x), s + 45 + SCREEN_Y + UI_OFFSET_Y, pSPentSpn2Cels, PentSpn2Frame, 12);
 	}
 }
 
@@ -750,6 +757,15 @@ void S_StartSRepair()
 		repairok = TRUE;
 		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND_RIGHT], -4);
 	}
+	if (plr[myplr].InvBody[INVLOC_HAND2_LEFT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND2_LEFT]._iDurability != plr[myplr].InvBody[INVLOC_HAND2_LEFT]._iMaxDur) {
+		repairok = TRUE;
+		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND2_LEFT], -5);
+	}
+	if (plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._iDurability != plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._iMaxDur) {
+		repairok = TRUE;
+		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND2_RIGHT], -6);
+	}
+	
 	for (i = 0; i < plr[myplr]._pNumInv; i++) {
 #ifdef HELLFIRE
 		if (storenumh >= 48)
@@ -1193,14 +1209,16 @@ void S_StartBBoy()
 
 void S_StartHealer()
 {
-#ifdef HELLFIRE
-	if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP) {
+	if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP || plr[myplr]._pMana != plr[myplr]._pMaxMana) {
 		PlaySFX(IS_CAST8);
 	}
 	plr[myplr]._pHitPoints = plr[myplr]._pMaxHP;
 	plr[myplr]._pHPBase = plr[myplr]._pMaxHPBase;
-	drawhpflag = TRUE;
-#endif
+	
+	drawhpflag = FALSE;
+	plr[myplr]._pMana = plr[myplr]._pMaxMana;
+	plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
+  
 	stextsize = FALSE;
 	stextscrl = FALSE;
 	AddSText(0, 1, TRUE, "Welcome to the", COL_GOLD, FALSE);
@@ -1211,8 +1229,8 @@ void S_StartHealer()
 	AddSText(0, 14, TRUE, "Buy items", COL_WHITE, TRUE);
 	AddSText(0, 16, TRUE, "Leave Healer's home", COL_WHITE, TRUE);
 #else
-	AddSText(0, 14, TRUE, "Receive healing", COL_WHITE, TRUE);
-	AddSText(0, 16, TRUE, "Buy items", COL_WHITE, TRUE);
+	//AddSText(0, 14, TRUE, "Receive healing", COL_WHITE, TRUE);
+	AddSText(0, 14, TRUE, "Buy items", COL_WHITE, TRUE);
 	AddSText(0, 18, TRUE, "Leave Healer's home", COL_WHITE, TRUE);
 #endif
 	AddSLine(5);
@@ -1620,6 +1638,8 @@ void DrawSText()
 
 	if (stextscrl)
 		DrawSSlider(4, 20);
+
+	PentSpn2Spin();
 }
 
 void STextESC()

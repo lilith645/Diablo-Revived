@@ -324,13 +324,13 @@ void CreateTown(int entry)
 	DRLG_InitTrans();
 	DRLG_Init_Globals();
 
-	if (entry == ENTRY_MAIN) { // New game
+	if (entry == 0) {
 		ViewX = 75;
 		ViewY = 68;
-	} else if (entry == ENTRY_PREV) { // Cathedral
+	} else if (entry == 1) {
 		ViewX = 25;
 		ViewY = 31;
-	} else if (entry == ENTRY_TWARPUP) {
+	} else if (entry == 7) {
 		if (TWarpFrom == 5) {
 			ViewX = 49;
 			ViewY = 22;

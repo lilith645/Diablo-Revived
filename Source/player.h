@@ -6,6 +6,8 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+#include <vector>
+
 DEVILUTION_BEGIN_NAMESPACE
 
 #ifdef __cplusplus
@@ -152,6 +154,10 @@ extern int MaxStats[NUM_CLASSES][4];
 extern int ExpLvlsTbl[MAXCHARLEVEL];
 extern const char *const ClassStrTbl[NUM_CLASSES];
 extern BYTE fix[9];
+
+void DrawFloatingTextAbovePlayer();
+void DrawFloatingGold(int damage, int row, int col, int callerID, int color = COL_GOLD);
+extern std::vector<FloatingText> FloatingTextQueue;
 
 #ifdef __cplusplus
 }

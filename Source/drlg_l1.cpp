@@ -2593,7 +2593,7 @@ static void DRLG_L5(int entry)
 		doneflag = TRUE;
 
 		if (QuestStatus(Q_PWATER)) {
-			if (entry == ENTRY_MAIN) {
+			if (entry == 0) {
 				if (DRLG_PlaceMiniSet(PWATERIN, 1, 1, 0, 0, TRUE, -1, 0) < 0)
 					doneflag = FALSE;
 			} else {
@@ -2603,13 +2603,13 @@ static void DRLG_L5(int entry)
 			}
 		}
 		if (QuestStatus(Q_LTBANNER)) {
-			if (entry == ENTRY_MAIN) {
+			if (entry == 0) {
 				if (DRLG_PlaceMiniSet(STAIRSUP, 1, 1, 0, 0, TRUE, -1, 0) < 0)
 					doneflag = FALSE;
 			} else {
 				if (DRLG_PlaceMiniSet(STAIRSUP, 1, 1, 0, 0, FALSE, -1, 0) < 0)
 					doneflag = FALSE;
-				if (entry == ENTRY_PREV) {
+				if (entry == 1) {
 					ViewX = 2 * setpc_x + 20;
 					ViewY = 2 * setpc_y + 28;
 				} else {
@@ -2698,7 +2698,7 @@ static void DRLG_L5(int entry)
 				}
 			}
 #else
-		} else if (entry == ENTRY_MAIN) {
+		} else if (entry == 0) {
 			if (DRLG_PlaceMiniSet(L5STAIRSUP, 1, 1, 0, 0, TRUE, -1, 0) < 0)
 				doneflag = FALSE;
 			else if (DRLG_PlaceMiniSet(STAIRSDOWN, 1, 1, 0, 0, FALSE, -1, 1) < 0)

@@ -30,7 +30,10 @@ int AmLine8;
 int AmLine4;
 
 /** color used to draw the player's arrow */
-#define COLOR_PLAYER (PAL8_ORANGE + 1)
+#define COLOR_PLAYER_1 (PAL8_BLUE + 1)
+#define COLOR_PLAYER_2 (PAL8_ORANGE + 1)
+#define COLOR_PLAYER_3 (PAL8_YELLOW + 1)
+#define COLOR_PLAYER_4 (PAL8_RED + 1)
 /** color for bright map lines (doors, stairs etc.) */
 #define COLOR_BRIGHT PAL8_YELLOW
 /** color for dim map lines/dots */
@@ -204,9 +207,118 @@ void AutomapZoomOut()
 }
 
 /**
+ * @brief Renders the automap on screen.
+ */
+void DrawAutomap()
+{
+	int cells;
+	int sx, sy;
+	int i, j, d;
+	int mapx, mapy;
+
+	if (leveltype == DTYPE_TOWN) {
+		DrawAutomapText();
+		return;
+	}
+
+	gpBufEnd = &gpBuffer[BUFFER_WIDTH * (SCREEN_Y + VIEWPORT_HEIGHT)];
+
+	AutoMapX = (ViewX - 16) >> 1;
+	while (AutoMapX + AutoMapXOfs < 0)
+		AutoMapXOfs++;
+	while (AutoMapX + AutoMapXOfs >= DMAXX)
+		AutoMapXOfs--;
+	AutoMapX += AutoMapXOfs;
+
+	AutoMapY = (ViewY - 16) >> 1;
+	while (AutoMapY + AutoMapYOfs < 0)
+		AutoMapYOfs++;
+	while (AutoMapY + AutoMapYOfs >= DMAXY)
+		AutoMapYOfs--;
+	AutoMapY += AutoMapYOfs;
+
+	d = (AutoMapScale << 6) / 100;
+	cells = 2 * (SCREEN_WIDTH / 2 / d) + 1;
+	if ((SCREEN_WIDTH / 2) % d)
+		cells++;
+	if ((SCREEN_WIDTH / 2) % d >= (AutoMapScale << 5) / 100)
+		cells++;
+
+	if (ScrollInfo._sxoff + ScrollInfo._syoff)
+		cells++;
+	mapx = AutoMapX - cells;
+	mapy = AutoMapY - 1;
+
+	if (cells & 1) {
+		sx = SCREEN_WIDTH / 2 + SCREEN_X - AmLine64 * ((cells - 1) >> 1);
+		sy = (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y - AmLine32 * ((cells + 1) >> 1);
+	} else {
+		sx = SCREEN_WIDTH / 2 + SCREEN_X - AmLine64 * (cells >> 1) + AmLine32;
+		sy = (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y - AmLine32 * (cells >> 1) - AmLine16;
+	}
+	if (ViewX & 1) {
+		sx -= AmLine16;
+		sy -= AmLine8;
+	}
+	if (ViewY & 1) {
+		sx += AmLine16;
+		sy -= AmLine8;
+	}
+
+	sx += AutoMapScale * ScrollInfo._sxoff / 100 >> 1;
+	sy += AutoMapScale * ScrollInfo._syoff / 100 >> 1;
+	if (PANELS_COVER) {
+		if (invflag || sbookflag) {
+			sx -= SCREEN_WIDTH / 4;
+		}
+		if (chrflag || questlog) {
+			sx += SCREEN_WIDTH / 4;
+		}
+	}
+
+	for (i = 0; i <= cells + 1; i++) {
+		int x = sx;
+		int y;
+
+		for (j = 0; j < cells; j++) {
+			WORD maptype = GetAutomapType(mapx + j, mapy - j, TRUE);
+			if (maptype != 0)
+				DrawAutomapTile(x, sy, maptype);
+			x += AmLine64;
+		}
+		mapy++;
+		x = sx - AmLine32;
+		y = sy + AmLine16;
+		for (j = 0; j <= cells; j++) {
+			WORD maptype = GetAutomapType(mapx + j, mapy - j, TRUE);
+			if (maptype != 0)
+				DrawAutomapTile(x, y, maptype);
+			x += AmLine64;
+		}
+		mapx++;
+		sy += AmLine32;
+	}
+	
+	//DrawAutomapPlr();
+	
+	for (int i = 0; i < 4; ++i) {
+		if (plr[i].plractive && plr[i].plrlevel == plr[myplr].plrlevel){
+			DrawAutomapPlr(i);
+		}
+	}
+	
+#ifdef HELLFIRE
+	if (AutoMapShowItems)
+		SearchAutomapItem();
+#endif
+	DrawAutomapText();
+	gpBufEnd = &gpBuffer[BUFFER_WIDTH * (SCREEN_Y + SCREEN_HEIGHT)];
+}
+
+/**
  * @brief Renders the given automap shape at the specified screen coordinates.
  */
-static void DrawAutomapTile(int sx, int sy, WORD automap_type)
+void DrawAutomapTile(int sx, int sy, WORD automap_type)
 {
 	BOOL do_vert;
 	BOOL do_horz;
@@ -390,21 +502,7 @@ static void DrawAutomapTile(int sx, int sy, WORD automap_type)
 			DrawLine(sx, sy + AmLine16, sx + AmLine32, sy, COLOR_DIM);
 	}
 }
-
 #ifdef HELLFIRE
-static void DrawAutomapItem(int x, int y, BYTE color)
-{
-	int x1, y1, x2, y2;
-
-	x1 = x - AmLine32 / 2;
-	y1 = y - AmLine16 / 2;
-	x2 = x1 + AmLine64 / 2;
-	y2 = y1 + AmLine32 / 2;
-	DrawLine(x, y1, x1, y, color);
-	DrawLine(x, y1, x2, y, color);
-	DrawLine(x, y2, x1, y, color);
-	DrawLine(x, y2, x2, y, color);
-}
 
 void SearchAutomapItem()
 {
@@ -470,32 +568,63 @@ void SearchAutomapItem()
 		}
 	}
 }
+
+void DrawAutomapItem(int x, int y, BYTE color)
+{
+	int x1, y1, x2, y2;
+
+	x1 = x - AmLine32 / 2;
+	y1 = y - AmLine16 / 2;
+	x2 = x1 + AmLine64 / 2;
+	y2 = y1 + AmLine32 / 2;
+	DrawLine(x, y1, x1, y, color);
+	DrawLine(x, y1, x2, y, color);
+	DrawLine(x, y2, x1, y, color);
+	DrawLine(x, y2, x2, y, color);
+}
 #endif
 
 /**
  * @brief Renders an arrow on the automap, centered on and facing the direction of the player.
  */
-static void DrawAutomapPlr()
+void DrawAutomapPlr(int pnum)
 {
 	int px, py;
 	int x, y;
+	
+	int p_colour = COLOR_PLAYER_1;
+	
+	switch(pnum) {
+	  case 1:
+	    p_colour = COLOR_PLAYER_2;
+	    break;
+  	case 2:
+	    p_colour = COLOR_PLAYER_3;
+	    break;
+	  case 3:
+	    p_colour = COLOR_PLAYER_4;
+	    break;
+	  case 0:
+	  default:
+	    break;
+	}
 
-	if (plr[myplr]._pmode == PM_WALK3) {
-		x = plr[myplr]._pfutx;
-		y = plr[myplr]._pfuty;
-		if (plr[myplr]._pdir == DIR_W)
+	if (plr[pnum]._pmode == PM_WALK3) {
+		x = plr[pnum]._pfutx;
+		y = plr[pnum]._pfuty;
+		if (plr[pnum]._pdir == DIR_W)
 			x++;
 		else
 			y++;
 	} else {
-		x = plr[myplr]._px;
-		y = plr[myplr]._py;
+		x = plr[pnum]._px;
+		y = plr[pnum]._py;
 	}
 	px = x - 2 * AutoMapXOfs - ViewX;
 	py = y - 2 * AutoMapYOfs - ViewY;
 
-	x = (plr[myplr]._pxoff * AutoMapScale / 100 >> 1) + (ScrollInfo._sxoff * AutoMapScale / 100 >> 1) + (px - py) * AmLine16 + SCREEN_WIDTH / 2 + SCREEN_X;
-	y = (plr[myplr]._pyoff * AutoMapScale / 100 >> 1) + (ScrollInfo._syoff * AutoMapScale / 100 >> 1) + (px + py) * AmLine8 + (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y;
+	x = (plr[pnum]._pxoff * AutoMapScale / 100 >> 1) + (ScrollInfo._sxoff * AutoMapScale / 100 >> 1) + (px - py) * AmLine16 + SCREEN_WIDTH / 2 + SCREEN_X;
+	y = (plr[pnum]._pyoff * AutoMapScale / 100 >> 1) + (ScrollInfo._syoff * AutoMapScale / 100 >> 1) + (px + py) * AmLine8 + (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y;
 
 	if (PANELS_COVER) {
 		if (invflag || sbookflag)
@@ -505,46 +634,46 @@ static void DrawAutomapPlr()
 	}
 	y -= AmLine8;
 
-	switch (plr[myplr]._pdir) {
+	switch (plr[pnum]._pdir) {
 	case DIR_N:
-		DrawLine(x, y, x, y - AmLine16, COLOR_PLAYER);
-		DrawLine(x, y - AmLine16, x - AmLine4, y - AmLine8, COLOR_PLAYER);
-		DrawLine(x, y - AmLine16, x + AmLine4, y - AmLine8, COLOR_PLAYER);
+		DrawLine(x, y, x, y - AmLine16, p_colour);
+		DrawLine(x, y - AmLine16, x - AmLine4, y - AmLine8, p_colour);
+		DrawLine(x, y - AmLine16, x + AmLine4, y - AmLine8, p_colour);
 		break;
 	case DIR_NE:
-		DrawLine(x, y, x + AmLine16, y - AmLine8, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8, y - AmLine8, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8 + AmLine4, y, COLOR_PLAYER);
+		DrawLine(x, y, x + AmLine16, y - AmLine8, p_colour);
+		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8, y - AmLine8, p_colour);
+		DrawLine(x + AmLine16, y - AmLine8, x + AmLine8 + AmLine4, y, p_colour);
 		break;
 	case DIR_E:
-		DrawLine(x, y, x + AmLine16, y, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y, x + AmLine8, y - AmLine4, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y, x + AmLine8, y + AmLine4, COLOR_PLAYER);
+		DrawLine(x, y, x + AmLine16, y, p_colour);
+		DrawLine(x + AmLine16, y, x + AmLine8, y - AmLine4, p_colour);
+		DrawLine(x + AmLine16, y, x + AmLine8, y + AmLine4, p_colour);
 		break;
 	case DIR_SE:
-		DrawLine(x, y, x + AmLine16, y + AmLine8, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8 + AmLine4, y, COLOR_PLAYER);
-		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8, y + AmLine8, COLOR_PLAYER);
+		DrawLine(x, y, x + AmLine16, y + AmLine8, p_colour);
+		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8 + AmLine4, y, p_colour);
+		DrawLine(x + AmLine16, y + AmLine8, x + AmLine8, y + AmLine8, p_colour);
 		break;
 	case DIR_S:
-		DrawLine(x, y, x, y + AmLine16, COLOR_PLAYER);
-		DrawLine(x, y + AmLine16, x + AmLine4, y + AmLine8, COLOR_PLAYER);
-		DrawLine(x, y + AmLine16, x - AmLine4, y + AmLine8, COLOR_PLAYER);
+		DrawLine(x, y, x, y + AmLine16, p_colour);
+		DrawLine(x, y + AmLine16, x + AmLine4, y + AmLine8, p_colour);
+		DrawLine(x, y + AmLine16, x - AmLine4, y + AmLine8, p_colour);
 		break;
 	case DIR_SW:
-		DrawLine(x, y, x - AmLine16, y + AmLine8, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y + AmLine8, x - AmLine4 - AmLine8, y, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y + AmLine8, x - AmLine8, y + AmLine8, COLOR_PLAYER);
+		DrawLine(x, y, x - AmLine16, y + AmLine8, p_colour);
+		DrawLine(x - AmLine16, y + AmLine8, x - AmLine4 - AmLine8, y, p_colour);
+		DrawLine(x - AmLine16, y + AmLine8, x - AmLine8, y + AmLine8, p_colour);
 		break;
 	case DIR_W:
-		DrawLine(x, y, x - AmLine16, y, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y, x - AmLine8, y - AmLine4, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y, x - AmLine8, y + AmLine4, COLOR_PLAYER);
+		DrawLine(x, y, x - AmLine16, y, p_colour);
+		DrawLine(x - AmLine16, y, x - AmLine8, y - AmLine4, p_colour);
+		DrawLine(x - AmLine16, y, x - AmLine8, y + AmLine4, p_colour);
 		break;
 	case DIR_NW:
-		DrawLine(x, y, x - AmLine16, y - AmLine8, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y - AmLine8, x - AmLine8, y - AmLine8, COLOR_PLAYER);
-		DrawLine(x - AmLine16, y - AmLine8, x - AmLine4 - AmLine8, y, COLOR_PLAYER);
+		DrawLine(x, y, x - AmLine16, y - AmLine8, p_colour);
+		DrawLine(x - AmLine16, y - AmLine8, x - AmLine8, y - AmLine8, p_colour);
+		DrawLine(x - AmLine16, y - AmLine8, x - AmLine4 - AmLine8, y, p_colour);
 		break;
 	}
 }
@@ -552,7 +681,7 @@ static void DrawAutomapPlr()
 /**
  * @brief Returns the automap shape at the given coordinate.
  */
-static WORD GetAutomapType(int x, int y, BOOL view)
+WORD GetAutomapType(int x, int y, BOOL view)
 {
 	WORD rv;
 
@@ -601,7 +730,7 @@ static WORD GetAutomapType(int x, int y, BOOL view)
 /**
  * @brief Renders game info, such as the name of the current level, and in multi player the name of the game and the game password.
  */
-static void DrawAutomapText()
+void DrawAutomapText()
 {
 	char desc[256];
 	int nextline = 20;
@@ -633,107 +762,6 @@ static void DrawAutomapText()
 #endif
 		PrintGameStr(8, nextline, desc, COL_GOLD);
 	}
-}
-
-/**
- * @brief Renders the automap on screen.
- */
-void DrawAutomap()
-{
-	int cells;
-	int sx, sy;
-	int i, j, d;
-	int mapx, mapy;
-
-	if (leveltype == DTYPE_TOWN) {
-		DrawAutomapText();
-		return;
-	}
-
-	gpBufEnd = &gpBuffer[BUFFER_WIDTH * (SCREEN_Y + VIEWPORT_HEIGHT)];
-
-	AutoMapX = (ViewX - 16) >> 1;
-	while (AutoMapX + AutoMapXOfs < 0)
-		AutoMapXOfs++;
-	while (AutoMapX + AutoMapXOfs >= DMAXX)
-		AutoMapXOfs--;
-	AutoMapX += AutoMapXOfs;
-
-	AutoMapY = (ViewY - 16) >> 1;
-	while (AutoMapY + AutoMapYOfs < 0)
-		AutoMapYOfs++;
-	while (AutoMapY + AutoMapYOfs >= DMAXY)
-		AutoMapYOfs--;
-	AutoMapY += AutoMapYOfs;
-
-	d = (AutoMapScale << 6) / 100;
-	cells = 2 * (SCREEN_WIDTH / 2 / d) + 1;
-	if ((SCREEN_WIDTH / 2) % d)
-		cells++;
-	if ((SCREEN_WIDTH / 2) % d >= (AutoMapScale << 5) / 100)
-		cells++;
-
-	if (ScrollInfo._sxoff + ScrollInfo._syoff)
-		cells++;
-	mapx = AutoMapX - cells;
-	mapy = AutoMapY - 1;
-
-	if (cells & 1) {
-		sx = SCREEN_WIDTH / 2 + SCREEN_X - AmLine64 * ((cells - 1) >> 1);
-		sy = (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y - AmLine32 * ((cells + 1) >> 1);
-	} else {
-		sx = SCREEN_WIDTH / 2 + SCREEN_X - AmLine64 * (cells >> 1) + AmLine32;
-		sy = (SCREEN_HEIGHT - PANEL_HEIGHT) / 2 + SCREEN_Y - AmLine32 * (cells >> 1) - AmLine16;
-	}
-	if (ViewX & 1) {
-		sx -= AmLine16;
-		sy -= AmLine8;
-	}
-	if (ViewY & 1) {
-		sx += AmLine16;
-		sy -= AmLine8;
-	}
-
-	sx += AutoMapScale * ScrollInfo._sxoff / 100 >> 1;
-	sy += AutoMapScale * ScrollInfo._syoff / 100 >> 1;
-	if (PANELS_COVER) {
-		if (invflag || sbookflag) {
-			sx -= SCREEN_WIDTH / 4;
-		}
-		if (chrflag || questlog) {
-			sx += SCREEN_WIDTH / 4;
-		}
-	}
-
-	for (i = 0; i <= cells + 1; i++) {
-		int x = sx;
-		int y;
-
-		for (j = 0; j < cells; j++) {
-			WORD maptype = GetAutomapType(mapx + j, mapy - j, TRUE);
-			if (maptype != 0)
-				DrawAutomapTile(x, sy, maptype);
-			x += AmLine64;
-		}
-		mapy++;
-		x = sx - AmLine32;
-		y = sy + AmLine16;
-		for (j = 0; j <= cells; j++) {
-			WORD maptype = GetAutomapType(mapx + j, mapy - j, TRUE);
-			if (maptype != 0)
-				DrawAutomapTile(x, y, maptype);
-			x += AmLine64;
-		}
-		mapx++;
-		sy += AmLine32;
-	}
-	DrawAutomapPlr();
-#ifdef HELLFIRE
-	if (AutoMapShowItems)
-		SearchAutomapItem();
-#endif
-	DrawAutomapText();
-	gpBufEnd = &gpBuffer[BUFFER_WIDTH * (SCREEN_Y + SCREEN_HEIGHT)];
 }
 
 /**

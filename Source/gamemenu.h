@@ -12,10 +12,8 @@ DEVILUTION_BEGIN_NAMESPACE
 extern "C" {
 #endif
 
-#ifdef HELLFIRE
 extern char *jogging_title;
 extern BOOL jogging_opt;
-#endif
 
 void gamemenu_on();
 void gamemenu_update_single(TMenuItem *pMenuItems);
@@ -32,9 +30,9 @@ void gamemenu_options(BOOL bActivate);
 void gamemenu_get_music();
 void gamemenu_sound_music_toggle(const char *const *names, TMenuItem *menu_item, int gamma);
 void gamemenu_get_sound();
-#ifdef HELLFIRE
+
 void gamemenu_jogging();
-#endif
+
 #ifndef HELLFIRE
 void gamemenu_get_color_cycling();
 #endif

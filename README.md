@@ -1,17 +1,35 @@
-[![Downloads](https://img.shields.io/github/downloads/diasurgical/devilutionX/total.svg)](https://github.com/diasurgical/devilutionX/releases)
-[![github stars](https://img.shields.io/github/stars/diasurgical/devilutionX.svg)](https://github.com/diasurgical/devilutionX/stargazers)
-[![codecov](https://codecov.io/gh/diasurgical/devilutionX/branch/master/graph/badge.svg)](https://codecov.io/gh/diasurgical/devilutionX)
+# Refined Edition
+> How is this different from base DevilutionX?
 
-Nightly builds | Platform
----:| ---
-[![CircleCI](https://circleci.com/gh/diasurgical/devilutionX.svg?style=svg)](https://circleci.com/gh/diasurgical/devilutionX) | Linux 32bit & 64bit, Windows 32bit, Nintendo Switch, SDL1, Amiga
-[![Build Status](https://travis-ci.org/diasurgical/devilutionX.svg?branch=master)](https://travis-ci.org/diasurgical/devilutionX) | macOS 64bit, Linux ppc64le
-[![Build status](https://ci.appveyor.com/api/projects/status/1a0jus2372qvksht?svg=true)](https://ci.appveyor.com/project/AJenbo/devilutionx) | Windows 64bit (MSVC)
+The Refined Edition includes many QOL patches whilst staying true to the original DevilutionX and will always support for Linux, Mac and Windows.
 
-![Discord Channel](https://avatars3.githubusercontent.com/u/1965106?s=16&v=4) [Discord Chat Channel](https://discord.gg/YQKCAYQ)
+# QOL Patches
+
+- Fast run in town
+- Shared xp
+- xp bar
+- Items and Gold don't drop on death
+- Unique colour for each player on minimap
+- Gold picks itself up when you walk on it
+- Projectiles can now break barrels
+- When playing as rogue, traps are highlighted
+- Pressing 'Alt' key highlights items
+- Holding left click on enemy continuously attacks
+- Level up noise
+- Fixed Friendly Fire
+- Weapon swap (Press X)
+- Gain max HP and Mana when talking to Pepin
+
+# TODO
+
+- [ ] Option for Gold pickup evenly distrubuted between all players.
+- [ ] Option to enable Item and Gold drop on death.
+- [ ] Option to disable automatic gold pickup.
+- [ ] Option to disable Rogue trap highligh.
+- [ ] Option to disable automatic hp and mana refill when talking to pepin.
 
 # How To Play:
- - Download [the latest DevilutionX release](https://github.com/diasurgical/devilutionX/releases), or build from source
+ - Build from source
  - Copy diabdat.mpq from your CD or GoG installation (or [extract it from the GoG installer](https://github.com/diasurgical/devilutionX/wiki/Extracting-the-DIABDAT.MPQ-from-the-GoG-installer)) to the DevilutionX install folder or data folder; make sure it is all lowercase. The DevilutionX install folder is the one that contains the DevilutionX executable. The data folder path may differ depending on OS version and security settings, but will normally be as follows:
     - macOS `~/Library/Application Support/diasurgical/devilution`
     - Linux `~/.local/share/diasurgical/devilution/`
@@ -338,13 +356,13 @@ variable (see
 # F.A.Q.
 > Wow, does this mean I can download and play Diablo for free now?
 
-No, you'll need access to the data from the original game. If you don't have an original CD then you can [buy Diablo from GoG.com](https://www.gog.com/game/diablo). Alternately you can use `spawn.mpq` from the [http://ftp.blizzard.com/pub/demos/diablosw.exe](shareware) version to play the shareware portion of the game.
+No, you'll need access to the data from the original game. If you don't have an original CD then you can [buy Diablo from GoG.com](https://www.gog.com/game/diablo). Alternately you can use `spawn.mpq` from the [http://ftp.blizzard.com/pub/demos/diablosw.exe](shareware) version and compile with the SPAWN flag defined.
 > What game changes does DevilutionX provide
 
 DevilutionX's main focus is to make the game work on multiple platforms. An additional goal is to make the engine mod friendly. As such, there are no changes to gameplay, but we will be making some enhancments to the engine itself. For example, the engine now has upscaling, unlocked fps, controller support, and multiplayer via TCP.
 > Is 1080p supported?
 
-Yes, the game will automatically adjust to your screen. This can be further adjusted in the game ini file.
+Currently the game simply scales the original 640x480 to best fit, but we are working on widescreen support.
 > What about Hellfire?
 
 Hellfire is being worked on and is mostly done, though not fully playable at the moment.

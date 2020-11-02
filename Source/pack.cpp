@@ -107,6 +107,10 @@ void PackPlayer(PkPlayerStruct *pPack, int pnum, BOOL manashield)
 		pki++;
 		pi++;
 	}
+	
+	PackItem(&pPack->alternateWeapons[0], &pPlayer->alternateWeapons[0]);
+	PackItem(&pPack->alternateWeapons[1], &pPlayer->alternateWeapons[1]);
+	pPack->currentWeaponSet = pPlayer->currentWeaponSet;
 
 #ifdef HELLFIRE
 	pPack->wReflection = pPlayer->wReflection;
@@ -270,6 +274,10 @@ void UnPackPlayer(PkPlayerStruct *pPack, int pnum, BOOL killok)
 		for (i = 0; i < 20; i++)
 			witchitem[i]._itype = ITYPE_NONE;
 	}
+	
+	pPlayer->currentWeaponSet = pPack->currentWeaponSet;
+	UnPackItem(&pPack->alternateWeapons[0], &pPlayer->alternateWeapons[0]);
+	UnPackItem(&pPack->alternateWeapons[1], &pPlayer->alternateWeapons[1]);
 
 	CalcPlrInv(pnum, FALSE);
 	pPlayer->wReflection = pPack->wReflection;

@@ -35,6 +35,9 @@ char pcursitem;
 char pcursobj;
 /** Current highlighted player */
 char pcursplr;
+
+char pcursxp;
+
 /** Current highlighted tile row */
 int cursmx;
 /** Current highlighted tile column */
@@ -163,6 +166,7 @@ void InitLevelCursor()
 	pcursobj = -1;
 	pcursitem = -1;
 	pcursplr = -1;
+	pcursxp = -1;
 	ClearCursor();
 }
 
@@ -329,6 +333,7 @@ void CheckCursMove()
 	pcursmonst = -1;
 	pcursobj = -1;
 	pcursitem = -1;
+	pcursxp = -1;
 	if (pcursinvitem != -1) {
 		drawsbarflag = TRUE;
 	}
@@ -346,6 +351,12 @@ void CheckCursMove()
 		cursmy = my;
 		return;
 	}
+	
+	if (MouseX > XPBAR_LEFT-XPBAR_WIDTH*0.2 && MouseX < XPBAR_RIGHT+XPBAR_WIDTH*0.8 &&
+	    MouseY > SCREEN_HEIGHT-(XPBAR_HEIGHT+XPBAR_BORDER)*2.0) {
+	  pcursxp = 1;
+	}
+	
 	if (MouseY > PANEL_TOP && MouseX >= PANEL_LEFT && MouseX <= PANEL_LEFT + PANEL_WIDTH) {
 		CheckPanelInfo();
 		return;
@@ -628,6 +639,7 @@ void CheckCursMove()
 			}
 		}
 	}
+	
 	if (pcursplr == -1 && pcursobj == -1 && pcursmonst == -1) {
 		if (!flipflag && mx + 1 < MAXDUNX && dItem[mx + 1][my] > 0) {
 			bv = dItem[mx + 1][my] - 1;
@@ -674,6 +686,7 @@ void CheckCursMove()
 		pcursobj = -1;
 		pcursmonst = -1;
 		pcursitem = -1;
+		pcursxp = -1;
 		cursmx = mx;
 		cursmy = my;
 	}

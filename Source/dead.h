@@ -12,6 +12,7 @@ DEVILUTION_BEGIN_NAMESPACE
 extern "C" {
 #endif
 
+extern int spurtndx;
 extern DeadStruct dead[MAXDEAD];
 extern int stonendx;
 

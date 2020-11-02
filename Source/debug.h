@@ -13,6 +13,8 @@ extern "C" {
 #endif
 
 extern BYTE *pSquareCel;
+extern char dMonsDbg[NUMLEVELS][MAXDUNX][MAXDUNY];
+extern char dFlagDbg[NUMLEVELS][MAXDUNX][MAXDUNY];
 
 void LoadDebugGFX();
 void FreeDebugGFX();
@@ -22,9 +24,11 @@ void GiveGoldCheat();
 void StoresCheat();
 void TakeGoldCheat();
 void MaxSpellsCheat();
+void SetSpellLevelCheat(char spl, int spllvl);
 void SetAllSpellsCheat();
 void PrintDebugPlayer(BOOL bNextPlayer);
 void PrintDebugQuest();
+void PrintDebugMonster(int m);
 void GetDebugMonster();
 void NextDebugMonster();
 #endif
