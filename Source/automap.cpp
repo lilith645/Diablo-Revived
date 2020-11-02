@@ -196,7 +196,7 @@ void AutomapZoomIn()
  */
 void AutomapZoomOut()
 {
-	if (AutoMapScale > 50) {
+	if (AutoMapScale > 30) {
 		AutoMapScale -= 5;
 		AmLine64 = (AutoMapScale << 6) / 100;
 		AmLine32 = AmLine64 >> 1;
