@@ -45,11 +45,13 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 - Removed friendly fire
 
 # TODO
-Additional QOL improvements:
+Additional improvements:
 - [ ] shift + click on potions to add them to your belt
 - [ ] ctrl + click an item to drop it
 - [ ] Mouse hover over life/mana orbs to show current/max life/man, click to toggle
 - [ ] Make shop selection stay after buying an item
+- [ ] Add a stash
+- [ ] Make stash persistent between characters
 
 Add a config file that allows players to customise their experience, including options to:
 
