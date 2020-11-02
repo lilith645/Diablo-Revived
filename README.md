@@ -20,7 +20,7 @@ Yes, but you will need to compile with the flag '-DHELLFIRE=ON' and add hellfire
 
 None of this is to say that Diablo: Revived is a better mod. Infernity is a fantastic vanilla-like experience, and you should try it and decide which mod you prefer for yourself.
 
-You can find Infernity (here)[https://github.com/qndel/Infernity].
+You can find Infernity [here](https://github.com/qndel/Infernity).
 
 # Global QOL Changes
 - Increased walking speed in town by 100%
