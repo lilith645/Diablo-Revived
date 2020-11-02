@@ -10,8 +10,8 @@
 #define APP_NAME				"Hellfire"
 #else
 #define DIABOOL					BOOL
-#define GAME_NAME				"DIABLO_INFERNITY_LINUX"
-#define APP_NAME				"Diablo_infernity_linux"
+#define GAME_NAME				"DIABLO_REFINED"
+#define APP_NAME				"Diablo_Refined"
 #endif
 
 #ifdef HELLFIRE

@@ -1172,7 +1172,7 @@ void AddPlrMonstExper(int lvl, int exp, char pmask)
 	}
 
 	if (totplrs) {
-		e = exp / std::max(totplrs-1, 1);
+		e = exp; // std::max(totplrs-1, 1);
 		if (pmask & (1 << myplr))
 			AddPlrExperience(myplr, lvl, e);
 	}
@@ -1581,8 +1581,6 @@ void StartWalk(int pnum, int xvel, int yvel, int xadd, int yadd, int EndDir, int
 	if (pnum != myplr) {
 		return;
 	}
-	
-//	MakePlayerRun(pnum);
 
 	if (zoomflag) {
 		if (abs(ScrollInfo._sdx) >= 3 || abs(ScrollInfo._sdy) >= 3) {
@@ -1659,8 +1657,6 @@ void StartWalk2(int pnum, int xvel, int yvel, int xoff, int yoff, int xadd, int 
 	if (pnum != myplr) {
 		return;
 	}
-	
-	//MakePlayerRun(pnum);
 
 	if (zoomflag) {
 		if (abs(ScrollInfo._sdx) >= 3 || abs(ScrollInfo._sdy) >= 3) {
@@ -1742,8 +1738,6 @@ void StartWalk3(int pnum, int xvel, int yvel, int xoff, int yoff, int xadd, int 
 	if (pnum != myplr) {
 		return;
 	}
-	
-	//MakePlayerRun(pnum);
 
 	if (zoomflag) {
 		if (abs(ScrollInfo._sdx) >= 3 || abs(ScrollInfo._sdy) >= 3) {
@@ -2484,13 +2478,6 @@ BOOL PM_DoWalk(int pnum)
 		app_fatal("PM_DoWalk: illegal player %d", pnum);
 	}
 
-/*#ifndef HELLFIRE
-	if (plr[pnum]._pAnimFrame == 3
-	    || (plr[pnum]._pWFrames == 8 && plr[pnum]._pAnimFrame == 7)
-	    || (plr[pnum]._pWFrames != 8 && plr[pnum]._pAnimFrame == 4)) {
-		PlaySfxLoc(PS_WALK1, plr[pnum]._px, plr[pnum]._py);
-	}
-#else*/
 	if (!currlevel && jogging_opt) {
 		if (plr[pnum]._pAnimFrame % 2 == 0) {
 			plr[pnum]._pAnimFrame++;
@@ -2500,8 +2487,7 @@ BOOL PM_DoWalk(int pnum)
 			plr[pnum]._pAnimFrame = 0;
 		}
 	}
-//#endif
-
+	
 	anim_len = 8;
 	if (currlevel != 0) {
 		anim_len = AnimLenFromClass[plr[pnum]._pClass];
@@ -2556,13 +2542,6 @@ BOOL PM_DoWalk2(int pnum)
 		app_fatal("PM_DoWalk2: illegal player %d", pnum);
 	}
 
-/*#ifndef HELLFIRE
-	if (plr[pnum]._pAnimFrame == 3
-	    || (plr[pnum]._pWFrames == 8 && plr[pnum]._pAnimFrame == 7)
-	    || (plr[pnum]._pWFrames != 8 && plr[pnum]._pAnimFrame == 4)) {
-		PlaySfxLoc(PS_WALK1, plr[pnum]._px, plr[pnum]._py);
-	}
-#else*/
 	if (!currlevel && jogging_opt) {
 		if (plr[pnum]._pAnimFrame % 2 == 0) {
 			plr[pnum]._pAnimFrame++;
@@ -2572,7 +2551,6 @@ BOOL PM_DoWalk2(int pnum)
 			plr[pnum]._pAnimFrame = 0;
 		}
 	}
-//#endif
 
 	anim_len = 8;
 	if (currlevel != 0) {
@@ -2624,13 +2602,6 @@ BOOL PM_DoWalk3(int pnum)
 		app_fatal("PM_DoWalk3: illegal player %d", pnum);
 	}
 
-/*#ifndef HELLFIRE
-	if (plr[pnum]._pAnimFrame == 3
-	    || (plr[pnum]._pWFrames == 8 && plr[pnum]._pAnimFrame == 7)
-	    || (plr[pnum]._pWFrames != 8 && plr[pnum]._pAnimFrame == 4)) {
-		PlaySfxLoc(PS_WALK1, plr[pnum]._px, plr[pnum]._py);
-	}*/
-//#else
 	if (!currlevel && jogging_opt) {
 		if (plr[pnum]._pAnimFrame % 2 == 0) {
 			plr[pnum]._pAnimFrame++;
@@ -2640,7 +2611,6 @@ BOOL PM_DoWalk3(int pnum)
 			plr[pnum]._pAnimFrame = 0;
 		}
 	}
-//#endif
 
 	anim_len = 8;
 	if (currlevel != 0) {
