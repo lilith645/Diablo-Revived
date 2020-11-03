@@ -417,7 +417,7 @@ void gamemenu_speed(BOOL bActivate)
 		ticks_per_sec = gmenu_slider_get(&sgOptionsMenu[3], 20, 50);
 	}
 
-	SRegSaveValue("devilutionx", "game speed", 0, ticks_per_sec);
+	SRegSaveValue("diablo_revived", "game speed", 0, ticks_per_sec);
 	tick_delay = 1000 / ticks_per_sec;
 }
 

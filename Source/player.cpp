@@ -235,153 +235,6 @@ const char *const ClassStrTbl[NUM_CLASSES] = {
 /** Unused local of PM_ChangeLightOff, originally for computing light radius. */
 BYTE fix[9] = { 0, 0, 3, 3, 3, 6, 6, 6, 8 };
 
-std::vector<FloatingText> FloatingTextQueue;
-
-void DrawFloatingTextAbovePlayer() {
-	float DurationOfTextInSeconds = 2;
-	int PercentOfTheScreenToTravel = 12;
-	int percentToMerge = 80;
-	int ScreenWidth = BUFFER_WIDTH;
-	int ScreenHeight = BUFFER_HEIGHT;
-	int MaxFPS = 20;
-
-	std::vector<int> indexes;
-	if (FloatingTextQueue.size() > 1 && indexes.size() == 0) {
-		indexes.push_back(FloatingTextQueue.size() - 1);
-	}
-	for (;;) {
-		for (uint j = 0; j<indexes.size(); ++j) {
-			FloatingText lastElem = FloatingTextQueue[indexes[j]];
-			if (lastElem.callerID != -1) {
-				for (uint i = 0; i < FloatingTextQueue.size() - 2; ++i) {
-					if (i == indexes[j]) {
-						continue;
-					}
-					if (lastElem.description == FloatingTextQueue[i].description && lastElem.callerID == FloatingTextQueue[i].callerID) {
-						if (abs(lastElem.iterations - FloatingTextQueue[i].iterations) < (MaxFPS*DurationOfTextInSeconds*percentToMerge / 100) && FloatingTextQueue[i].iterations < (int)((float)MaxFPS*DurationOfTextInSeconds)) {
-							indexes.push_back(i);
-							//merged = true;
-							FloatingTextQueue[i].value += lastElem.value;
-							FloatingTextQueue[indexes[j]].iterations = 9999999;
-							//FloatingTextQueue.pop_back();
-							//IronmanLevelCleared();
-							//break;
-						}
-					}
-				}
-			}
-			indexes.erase(indexes.begin() + j);
-		}
-		if (indexes.size() == 0) {
-			break;
-		}
-	}
-	
-	for (int i = FloatingTextQueue.size() - 1; i >= 0; --i) {
-		std::string text = FloatingTextQueue[i].text;
-		int val = FloatingTextQueue[i].value;
-		int iterations = FloatingTextQueue[i].iterations;
-		int color = FloatingTextQueue[i].color;
-		if (iterations < (int)((float)MaxFPS*DurationOfTextInSeconds)) {
-			int x, y;
-
-			int walkStandX = ScrollInfo._sxoff;// +plr[myplr]._pyoff;
-			int walkStandY = ScrollInfo._syoff;// +plr[myplr]._pxoff;
-
-			if (plr[myplr]._pmode == PM_WALK2 && ScrollInfo._sdir == 4) {
-				walkStandX += 32;
-				walkStandY += 16;
-			}
-			else if (plr[myplr]._pmode == PM_WALK2 && ScrollInfo._sdir == 5) {
-				walkStandY += 32;
-			}
-
-			else if (plr[myplr]._pmode == PM_WALK2 && ScrollInfo._sdir == 6) {
-				walkStandX += -32;
-				walkStandY += 16;
-			}
-
-			if (FloatingTextQueue[i].showOnCenter == true) {
-				x = (ScreenWidth - CalculateTextWidth((char*)text.c_str())) / 2;
-				y = int((float)ScreenHeight / 2.3);
-			}
-			else {
-				x = FloatingTextQueue[i].posX;
-				y = FloatingTextQueue[i].posY;
-				int row = FloatingTextQueue[i].posX - plr[myplr]._px;
-				int col = FloatingTextQueue[i].posY - plr[myplr]._py;
-				int PlayerShiftY = 0;
-				int PlayerShiftX = 0;
-				x = 32 * (row - col) + (200 * (walkStandX) / 100 >> 1) - CalculateTextWidth((char*)text.c_str()) / 2;
-				y = 16 * (row + col) + (200 * (walkStandY) / 100 >> 1)  - 16;
-
-				int drawXOffset = 0;
-				if (invflag || sbookflag)
-					drawXOffset -= 160;
-				if (chrflag || questlog)
-					drawXOffset += 160;
-				x = x + ScreenWidth*0.45 + drawXOffset;
-				y = y + 180;
-			}
-			double PI = 3.14159265;
-			double DistanceToTravel = ScreenHeight * PercentOfTheScreenToTravel / 100;
-			//y = ax + b
-			//a = tangent(angle)
-			double radian_angle = FloatingTextQueue[i].angle * PI / 180.0;
-			int dest_x = x; //+ int(DistanceToTravel * cos(radian_angle));
-			int dest_y = y + int(DistanceToTravel);// * sin(radian_angle));
-			double a = tan(radian_angle);
-			double b = y - a * x;
-			double progress = iterations / (MaxFPS * DurationOfTextInSeconds);
-			int diff_x = dest_x - x;
-			int diff_y = dest_y - y;
-
-			int drawx = x - int(progress * diff_x);
-			int drawy = y - int(progress * diff_y);
-			if (drawx > 0 && drawy < ScreenWidth && drawy > 0 && drawy < ScreenHeight) {
-				char bfr[256];
-
-				//int callerID;
-				//int value;
-				//string description;
-				sprintf(bfr, text.c_str(), val);
-				PrintGameStr(drawx, drawy, bfr, color);
-			}
-			FloatingTextQueue[i].IncreaseIterations();
-		}
-		else {
-			FloatingTextQueue.erase(FloatingTextQueue.begin() + i);
-		}
-	}
-}
-
-void DrawFloatingGold(int goldGain, int row, int col) {
-	FloatingTextQueue.push_back(FloatingText("+ %i Gold", COL_GOLD, row, col, false, -1, "gainGOLD", goldGain));
-}
-
-void AutoPickGold(int pnum) {
-	PlayerStruct& player = plr[pnum];
-	if (currlevel == 0/* || (gbMaxPlayers > 1 && gbActivePlayers > 1) || invflag*/) return;
-	for (int orient = 0; orient < 9; ++orient) {
-		int row = player._px + pathxdir[orient];
-		int col = player._py + pathydir[orient];
-
-		int itemIndex = dItem[row][col] - 1;
-		if (itemIndex > -1) {
-			char* derp = (char*)&item;
-			ItemStruct* it = &(item[itemIndex]);
-			if (it->_itype == ITYPE_GOLD) {
-			  DrawFloatingGold(it->_ivalue, row, col);
-				NetSendCmdGItem(1u, CMD_REQUESTAGITEM, pnum, pnum, itemIndex);
-				item[itemIndex]._iRequest = 1;
-				//dItem[row][col] = 0;
-				CalcPlrInv(myplr, 1);
-				PlaySFX(68);
-			}
-		}
-	}
-}
-
 void SetPlayerGPtrs(BYTE *pData, BYTE **pAnim)
 {
 	int i;
@@ -951,11 +804,7 @@ void CreatePlayer(int pnum, char c)
 	plr[pnum]._pLightRad = 10;
 	plr[pnum]._pInfraFlag = FALSE;
 	
-	memset(&plr[pnum].alternateWeapons[0],0, sizeof(ItemStruct));
-	memset(&plr[pnum].alternateWeapons[1], 0, sizeof(ItemStruct));
-	plr[pnum].alternateWeapons[0]._itype = -1;
-	plr[pnum].alternateWeapons[1]._itype = -1;
-	plr[pnum].currentWeaponSet = 0;
+	create_weapon_switch(pnum);
 
 	if (c == PC_WARRIOR) {
 		plr[pnum]._pAblSpells = (__int64)1 << (SPL_REPAIR - 1);
@@ -1090,7 +939,7 @@ void NextPlrLevel(int pnum)
 		if (plr[pnum]._pMana > 0)
 #endif
 			drawmanaflag = TRUE;
-		PlaySFX(IS_QUESTDN);
+		play_lvlup_sound();
 	}
 
 	if (sgbControllerActive)
@@ -1172,7 +1021,7 @@ void AddPlrMonstExper(int lvl, int exp, char pmask)
 	}
 
 	if (totplrs) {
-		e = exp; // std::max(totplrs-1, 1);
+		e = xp_share(exp, totplrs);
 		if (pmask & (1 << myplr))
 			AddPlrExperience(myplr, lvl, e);
 	}
@@ -1996,8 +1845,7 @@ void StartPlayerKill(int pnum, int earflag)
 		NetSendCmdParam1(TRUE, CMD_PLRDEAD, earflag);
 	}
 
-	///diablolevel = gbMaxPlayers > 1 && plr[pnum].plrlevel == 16;
-	diablolevel = true;
+	diablolevel = shouldnt_drop_items();
 
 	if ((DWORD)pnum >= MAX_PLRS) {
 		app_fatal("StartPlayerKill: illegal player %d", pnum);
@@ -3913,19 +3761,19 @@ void ProcessPlayers()
 				case PM_WALK:
 					tplayer = PM_DoWalk(pnum);
 					if (pnum == myplr) {
-						AutoPickGold(myplr);
+						auto_pickup_gold(myplr);
 					}
 					break;
 				case PM_WALK2:
 					tplayer = PM_DoWalk2(pnum);
 					if (pnum == myplr) {
-						AutoPickGold(myplr);
+						auto_pickup_gold(myplr);
 					}
 					break;
 				case PM_WALK3:
 					tplayer = PM_DoWalk3(pnum);
 					if (pnum == myplr) {
-						AutoPickGold(myplr);
+						auto_pickup_gold(myplr);
 					}
 					break;
 				case PM_ATTACK:

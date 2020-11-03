@@ -44,9 +44,6 @@ const int RndInc = 1;
  */
 const int RndMult = 0x015A4E35;
 
-uint SaveVersion = -1;
-uint CurVersion = 1;
-
 /**
  * @brief Blit CEL sprite to the back buffer at the given coordinates
  * @param sx Back buffer coordinate
@@ -1302,96 +1299,6 @@ void PlayInGameMovie(const char *pszMovie)
 	scrollrt_draw_game_screen(TRUE);
 	PaletteFadeIn(8);
 	force_redraw = 255;
-}
-
-void ColorPixel(int x, int y, int color) {
-
-	char* WorkingSurface = (char*)gpBuffer;
-	WorkingSurface[y*BUFFER_WIDTH+x] = color;
-}
-
-inline void FastDrawHorizLine(int x, int y, int width, BYTE col)
-{
-	memset(&gpBuffer[SCREENXY(x, y)], col, width);
-}
-
-inline void FastDrawVertLine(int x, int y, int height, BYTE col)
-{
-	BYTE *p = &gpBuffer[SCREENXY(x, y)];
-	for (int j = 0; j < height; j++) {
-		*p = col;
-		p += BUFFER_WIDTH;
-	}
-}
-
-inline void FillRect(int x, int y, int width, int height, BYTE col)
-{
-	for (int j = 0; j < height; j++) {
-		FastDrawHorizLine(x, y + j, width, col);
-	}
-}
-
-inline void FillSquare(int x, int y, int size, BYTE col)
-{
-	FillRect(x, y, size, size, col);
-}
-
-void DrawXpBar() {
-  int barColor = PAL8_YELLOW+4;//PAL8_ORANGE+7;//PAL16_BLUE+3;//242;
-  int backgroundColor = 0;//PAL8_YELLOW+6;//COLOUR_CUSTOM_PAL16_GRAY+2;//COLOUR_CUSTOM_PAL16_LIGHT_GRAY+7;//182;
-  int borderColor = PAL8_ORANGE+7;//0;
-  int segmentColor = COLOUR_CUSTOM_GRAY;
-  
-	int left_background = PAL8_YELLOW+6;
-	int top_background = PAL8_YELLOW+5;
-	
-	PlayerStruct *player = &plr[myplr];
-	int charLevel; 
-	unsigned int curXp; 
-	unsigned int prevXp; 
-	unsigned int nextXp;
-	unsigned int prevXpDelta;
-	unsigned int prevXpDelta_1; 
-	int visibleBar = 0;
-	
-	charLevel = player->_pLevel;
-	
-	for (int k = 0; k < XPBAR_SEGMENTS; ++k) {
-	  int offset = (XPBAR_SEGMENT_SIZE)*k + XPBAR_SEGMENT_SPACING*k;
-    FillRect(XPBAR_X+offset, XPBAR_Y, XPBAR_SEGMENT_SIZE, XPBAR_HEIGHT, backgroundColor);
-	}
-	
-  curXp = ExpLvlsTbl[charLevel];
-  if (charLevel != 50) {
-    prevXp = ExpLvlsTbl[charLevel - 1];
-    nextXp = ExpLvlsTbl[charLevel + 1];
-    prevXpDelta = curXp - prevXp;
-    prevXpDelta_1 = player->_pExperience - prevXp;
-    visibleBar = XPBAR_WIDTH*(unsigned __int64)prevXpDelta_1 / prevXpDelta;
-    for (int k = 0; k < XPBAR_SEGMENTS; ++k) {
-      int offset = (XPBAR_SEGMENT_SIZE)*k + XPBAR_SEGMENT_SPACING*k;
-      int x = XPBAR_X+offset;
-      
-      if (visibleBar > offset) {
-        if (visibleBar > offset+XPBAR_SEGMENT_SIZE) {
-          FillRect(x, XPBAR_Y, XPBAR_SEGMENT_SIZE, XPBAR_HEIGHT, barColor);
-        } else {
-          FillRect(x, XPBAR_Y, XPBAR_SEGMENT_SIZE-(offset+XPBAR_SEGMENT_SIZE-visibleBar), XPBAR_HEIGHT, barColor);
-        }
-      }
-    }
-	}
-	
-  if (pcursxp != -1) {
-    int screen_height = SCREEN_HEIGHT+SCREEN_Y;
-    
-    char xp_text[256];
-    
-    sprintf(xp_text, "xp: %i / %i", player->_pExperience, curXp);
-    int x = SCREEN_WIDTH*0.5 - CalculateTextWidth(xp_text)*0.5;//BUFFER_WIDTH*0.4;
-    int y = screen_height-SCREEN_Y-16;
-    PrintGameStr(x, y, (char*)(std::string(xp_text).c_str()), 255);
-  }
 }
 
 DEVILUTION_END_NAMESPACE

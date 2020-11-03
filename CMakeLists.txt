@@ -257,6 +257,7 @@ add_library(devilution STATIC
   Source/wave.cpp)
 
 set(devilutionx_SRCS
+  SourceX/revived.cpp
   SourceX/dx.cpp
   SourceX/controls/devices/game_controller.cpp
   SourceX/controls/devices/joystick.cpp
@@ -315,14 +316,14 @@ if(NOT NONET)
     SourceX/dvlnet/udp_p2p.cpp)
 endif()
 
-set(BIN_TARGET devilutionx)
+set(BIN_TARGET diablo_revived)
 
 if(SWITCH)
   list(APPEND devilutionx_SRCS
     SourceX/platform/switch/network.cpp
     SourceX/platform/switch/keyboard.cpp
     SourceX/platform/switch/docking.cpp)
-  set(BIN_TARGET devilutionx.elf)
+  set(BIN_TARGET diablo_revived.elf)
 endif()
 
 if(RUN_TESTS)

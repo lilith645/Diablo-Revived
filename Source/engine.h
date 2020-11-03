@@ -103,18 +103,10 @@ void Cl2BlitSafe(BYTE *pDecodeTo, BYTE *pRLEBytes, int nDataSize, int nWidth);
 void Cl2BlitOutlineSafe(BYTE *pDecodeTo, BYTE *pRLEBytes, int nDataSize, int nWidth, char col);
 void Cl2BlitLightSafe(BYTE *pDecodeTo, BYTE *pRLEBytes, int nDataSize, int nWidth, BYTE *pTable);
 void PlayInGameMovie(const char *pszMovie);
-void DrawXpBar();
 void ColorPixel(int x, int y, int color);
 void DrawTransparentRectangle(int x0, int dx, int y0, int dy, int color);
 void DrawSolidRectangle(int x0, int dx, int y0, int dy, int color);
 int CalculateTextWidth(const char* s);
-
-bool CanPutToBelt(int miscId);
-void CheckInvSwitchButtons();
-bool SwitchInvTab(int newTab);
-
-extern uint SaveVersion;
-extern uint CurVersion;
 
 /* rdata */
 

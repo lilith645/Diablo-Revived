@@ -2550,14 +2550,7 @@ void S_HealerEnter()
 		break;
 #else
 	case 14:
-		if (plr[myplr]._pHitPoints != plr[myplr]._pMaxHP || plr[myplr]._pMana != plr[myplr]._pMaxMana)
-			PlaySFX(IS_CAST8);
-		drawhpflag = TRUE;
-		plr[myplr]._pHitPoints = plr[myplr]._pMaxHP;
-		plr[myplr]._pHPBase = plr[myplr]._pMaxHPBase;
-    
-	  plr[myplr]._pMana = plr[myplr]._pMaxMana;
-	  plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
+		set_player_max_life_and_mana();
 		break;
 	case 16:
 		StartStore(STORE_HBUY);

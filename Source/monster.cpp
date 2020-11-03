@@ -5493,24 +5493,11 @@ void M_FallenFear(int x, int y)
 	}
 }
 
-const char* GetMonsterTypeText(const MonsterData& monsterData) {
-	switch (monsterData.mMonstClass) {
-	case MC_ANIMAL:
-		return "Animal";
-
-	case MC_DEMON:
-		return "Demon";
-
-	case MC_UNDEAD:
-		return "Undead";
-	}
-}
-
 void PrintMonstHistory(int mt)
 {
 	int minHP, maxHP, res;
 
-	sprintf(tempstr, "Type: %s  Kills: %i", GetMonsterTypeText(monsterdata[mt]), monstkills[mt]);
+	sprintf(tempstr, "Type: %s  Kills: %i", get_monster_type_text(monsterdata[mt]), monstkills[mt]);
 	AddPanelString(tempstr, TRUE);
 	if (monstkills[mt] >= 30) {
 		minHP = monsterdata[mt].mMinHP;
@@ -5575,7 +5562,7 @@ void PrintUniqueHistory()
 {
 	int res;
 	
-	sprintf(tempstr, "Type: %s", GetMonsterTypeText(*monster[pcursmonst].MData));
+	sprintf(tempstr, "Type: %s", get_monster_type_text(*monster[pcursmonst].MData));
 	AddPanelString(tempstr, TRUE);
 
 	res = monster[pcursmonst].mMagicRes & (RESIST_MAGIC | RESIST_FIRE | RESIST_LIGHTNING | IMMUNE_MAGIC | IMMUNE_FIRE | IMMUNE_LIGHTNING);

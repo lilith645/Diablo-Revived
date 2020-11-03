@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.com/lilith645/Diablo-Revived.svg?branch=master)
+
 # Diablo: Revived
 > What is Diablo: Revived?
 
@@ -78,7 +80,7 @@ Add a config file that allows players to customise their experience, including o
     - Windows `C:\Users\[username]\AppData\Roaming\diasurgical\devilution`
 - Install [SDL2](https://www.libsdl.org/download-2.0.php), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and [SDL2_ttf](https://www.libsdl.org/projects/SDL_ttf/) (included in macOS and Windows releases):
     - Ubuntu/Debian/Rasbian `sudo apt-get install libsdl2-ttf-2.0-0 libsdl2-mixer-2.0-0`
-- Run `./devilutionx`
+- Run `./diablo_revived`
 
 # Building from Source
 <details><summary>Linux</summary>
@@ -199,11 +201,11 @@ Make sure to install the `C++ CMake tools for Windows` component for Visual Stud
 
 * **Through Open->CMake in Visual Studio**
 1. Go to `File -> Open -> CMake`, select `CMakeLists.txt` from the project root.
-2. Select `Build devilution.exe` from the `Build` menu.
+2. Select `Build diablo_revived.exe` from the `Build` menu.
 
 * **Through cmake-gui**
 
-1. Input the path to devilutionx source directory at `Where is the source code:` field.
+1. Input the path to diablo_revived source directory at `Where is the source code:` field.
 2. Input the path where the binaries would be placed at `Where to build the binaries:` field. If you want to place them inside source directory it's preferable to do so inside directory called `build` to avoid the binaries being added to the source tree.
 3. It's recommended to input `Win32` in `Optional Platform for Generator`, otherwise it will default to x64 build.
 4. In case you're using `vcpkg` select `Specify toolchain file for cross-compiling` and select the file `scripts/buildsystems/vcpkg.cmake` from `vcpkg` directory otherwise just go with `Use default native compilers`.
@@ -219,7 +221,7 @@ Run:
 Packaging/switch/build.sh
 ```
 
-This will install the [Switch devkit](https://switchbrew.org/wiki/Setting_up_Development_Environment) and build a DevilutionX Switch package. If you already have the devkit installed, or are on a non-Debian system, pass the the devkit path to the script like this:
+This will install the [Switch devkit](https://switchbrew.org/wiki/Setting_up_Development_Environment) and build a Diablo-Revived Switch package. If you already have the devkit installed, or are on a non-Debian system, pass the the devkit path to the script like this:
 
 ```
 DEVKITPRO=<path to devkit> Packaging/switch/build.sh
@@ -258,7 +260,7 @@ cmake --build . -j $(nproc)
 
 <details><summary>OpenDingux / RetroFW</summary>
 
-DevilutionX uses buildroot to build packages for OpenDingux and RetroFW.
+Diablo-Revived uses buildroot to build packages for OpenDingux and RetroFW.
 
 The build script does the following:
 
@@ -307,14 +309,14 @@ Or you create a new directory under `/home/cpi/apps/Menu` and copy [the file](Pa
 docker build -f Packaging/amiga/Dockerfile -t devilutionx-amiga .
 ~~~
 
-### Build DevilutionX Amiga binary
+### Build Diablo-Revived Amiga binary
 
 ~~~ bash
 docker run --rm -v "${PWD}:/work" devilutionx-amiga
 sudo chown "${USER}:" build-amiga/*
 ~~~
 
-The command above builds DevilutionX in release mode.
+The command above builds Diablo-Revived in release mode.
 For other build options, you can run the container interactively:
 
 ~~~ bash
@@ -325,15 +327,15 @@ See the `CMD` in `Packaging/amiga/Dockerfile` for reference.
 
 ### Copy the necessary files
 
-Outside of the Docker container, from the DevilutionX directory, run:
+Outside of the Docker container, from the Diablo-Revived directory, run:
 
 ~~~ bash
 cp Packaging/amiga/devilutionx.info Packaging/amiga/LiberationSerif-Bold.ttf build-amiga/
 sudo chown "${USER}:" build-amiga/*
 ~~~
 
-To actually start DevilutionX, increase the stack size to 50KiB in Amiga.
-You can do this by selecting the DevilutionX icon, then hold right mouse button and
+To actually start Diablo-Revived, increase the stack size to 50KiB in Amiga.
+You can do this by selecting the Diablo-Revived icon, then hold right mouse button and
 select Icons -> Information in the top menu.
 </details>
 
@@ -362,7 +364,7 @@ All games are encrypted and password protected.
 
 # Controller support
 
-DevilutionX supports gamepad controls.
+Diablo-Revived supports gamepad controls.
 
 Default controller mappings (A/B/X/Y as in Nintendo layout, so the rightmost button is attack; A ○, B ×, X △, Y □):
 

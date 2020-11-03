@@ -18,6 +18,7 @@
 
 #include "../types.h"
 
+#include "../SourceX/revived.h"
 #include "appfat.h"
 #include "automap.h"
 #include "capture.h"

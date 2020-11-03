@@ -1025,16 +1025,7 @@ void CheckMissileCol(int i, int mindam, int maxdam, BOOL shift, int mx, int my, 
 
 	if (missile[i]._miAnimType != MFILE_FIREWAL && missile[i]._misource != -1) {
 	  int oi; 
-	  if (dObject[mx][my] <= 0) {
-		  oi = -1 - dObject[mx][my];
-	  } 
-	  else{
-		  oi = dObject[mx][my] - 1;
-	  }
-
-	  if (object[oi]._otype >= OBJ_BARREL && object[oi]._otype <= OBJ_BARRELEX && object[oi]._oBreak == 1) {
-		  BreakBarrel(myplr, oi, 100, 0, 1);
-	  }
+	  check_if_projectile_hit_barrel(&oi, mx, my);
 	
 		if (missile[i]._micaster == 0) {
 			if (dMonster[mx][my] > 0) {

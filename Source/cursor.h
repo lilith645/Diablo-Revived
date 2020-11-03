@@ -27,7 +27,6 @@ extern int icursW;
 extern char pcursitem;
 extern char pcursobj;
 extern char pcursplr;
-extern char pcursxp;
 extern int cursmx;
 extern int cursmy;
 extern int pcurstemp;

@@ -36,8 +36,6 @@ char pcursobj;
 /** Current highlighted player */
 char pcursplr;
 
-char pcursxp;
-
 /** Current highlighted tile row */
 int cursmx;
 /** Current highlighted tile column */

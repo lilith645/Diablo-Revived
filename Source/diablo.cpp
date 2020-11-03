@@ -975,16 +975,7 @@ void PressKey(int vkey) {
 	}
 	if (vkey == DVL_VK_ESCAPE) {
 		if (!PressEscKey()) {
-		  if (helpflag || invflag || chrflag || sbookflag || spselflag) {
-		    helpflag = FALSE;
-		    invflag = FALSE;
-		    chrflag = FALSE;
-		    sbookflag = FALSE;
-		    spselflag = FALSE;
-		  } else {
-			  track_repeat_walk(FALSE);
-			  gamemenu_on();
-			}
+		  escape_closes_windows();
 		}
 		return;
 	}
@@ -1174,26 +1165,6 @@ void diablo_pause_game() {
 	}
 }
 
-void SwitchWeapons() {
-	if (plr[myplr]._pmode != PM_ATTACK && plr[myplr]._pmode != PM_RATTACK && 
-	    plr[myplr]._pmode != PM_BLOCK && plr[myplr]._pmode != PM_SPELL && 
-	    plr[myplr]._pmode != PM_DEATH && plr[myplr]._pmode != PM_WALK && 
-	    plr[myplr]._pmode != PM_WALK2 && plr[myplr]._pmode != PM_WALK3) {
-		ItemStruct wtf = plr[myplr].InvBody[INVLOC_HAND_LEFT];
-		ItemStruct wtf2 = plr[myplr].InvBody[INVLOC_HAND_RIGHT];
-
-		plr[myplr].InvBody[INVLOC_HAND_LEFT] = plr[myplr].alternateWeapons[0];
-		plr[myplr].InvBody[INVLOC_HAND_RIGHT] = plr[myplr].alternateWeapons[1];
-
-		plr[myplr].alternateWeapons[0] = wtf;
-		plr[myplr].alternateWeapons[1] = wtf2;
-		
-		plr[myplr].currentWeaponSet = (plr[myplr].currentWeaponSet == 0 ? 1 : 0);
-		CalcPlrInv(myplr, 1);
-		PlaySFX(IS_TITLEMOV);
-	}
-}
-
 /**
  * @internal `return` must be used instead of `break` to be bin exact as C++
  */
@@ -1319,7 +1290,7 @@ void PressChar(int vkey) {
 		return;
 	case 'x':
 	case 'X':
-	  SwitchWeapons();
+	  switch_weapons();
 	  return;
 	case '!':
 	case '1':
