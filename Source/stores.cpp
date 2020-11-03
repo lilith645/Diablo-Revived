@@ -750,14 +750,8 @@ void S_StartSRepair()
 		repairok = TRUE;
 		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND_RIGHT], -4);
 	}
-	if (plr[myplr].InvBody[INVLOC_HAND2_LEFT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND2_LEFT]._iDurability != plr[myplr].InvBody[INVLOC_HAND2_LEFT]._iMaxDur) {
-		repairok = TRUE;
-		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND2_LEFT], -5);
-	}
-	if (plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._iDurability != plr[myplr].InvBody[INVLOC_HAND2_RIGHT]._iMaxDur) {
-		repairok = TRUE;
-		AddStoreHoldRepair(&plr[myplr].InvBody[INVLOC_HAND2_RIGHT], -6);
-	}
+	
+	repair_alternate_weapons(&repairok);
 	
 	for (i = 0; i < plr[myplr]._pNumInv; i++) {
 #ifdef HELLFIRE

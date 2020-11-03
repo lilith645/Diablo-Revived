@@ -3292,8 +3292,6 @@ typedef enum inv_body_loc {
 	INVLOC_HAND_LEFT  = 4,
 	INVLOC_HAND_RIGHT = 5,
 	INVLOC_CHEST      = 6,
-	INVLOC_HAND2_LEFT  = 7,
-	INVLOC_HAND2_RIGHT = 8,
 	NUM_INVLOC,
 } inv_body_loc;
 

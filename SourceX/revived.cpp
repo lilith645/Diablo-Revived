@@ -167,6 +167,17 @@ void create_weapon_switch(int pnum) {
   plr[pnum].currentWeaponSet = 0;
 }
 
+void repair_alternate_weapons(BOOL *repairok) {
+  if (plr[myplr].alternateWeapons[0]._itype != ITYPE_NONE && plr[myplr].alternateWeapons[0]._iDurability != plr[myplr].alternateWeapons[0]._iMaxDur) {
+    *repairok = TRUE;
+    AddStoreHoldRepair(&plr[myplr].alternateWeapons[0], -5);
+  }
+  if (plr[myplr].alternateWeapons[1]._itype != ITYPE_NONE && plr[myplr].alternateWeapons[1]._iDurability != plr[myplr].alternateWeapons[1]._iMaxDur) {
+    *repairok = TRUE;
+    AddStoreHoldRepair(&plr[myplr].alternateWeapons[1], -6);
+  }
+}
+
 void switch_weapons() {
   if (plr[myplr]._pmode != PM_ATTACK && plr[myplr]._pmode != PM_RATTACK && 
       plr[myplr]._pmode != PM_BLOCK && plr[myplr]._pmode != PM_SPELL && 

@@ -97,6 +97,7 @@ void switch_weapons();
 void auto_pickup_gold(int pnum);
 bool is_rogue_detect_trap(int trapFlag);
 void set_player_max_life_and_mana();
+void repair_alternate_weapons(BOOL *repairok);
 
 void highlight_items_on_map();
 void draw_trap_if_rogue(int bv, int sx, int sy);
