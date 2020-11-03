@@ -48,7 +48,7 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 
 # TODO
 Additional improvements:
-- [ ] shift + click on potions to add them to your belt
+- [X] shift + click on potions to add them to your belt and then back into your inventory
 - [ ] ctrl + click an item to drop it
 - [ ] Mouse hover over life/mana orbs to show current/max life/man, click to toggle
 - [ ] Make shop selection stay after buying an item

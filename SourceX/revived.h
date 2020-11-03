@@ -99,6 +99,8 @@ bool is_rogue_detect_trap(int trapFlag);
 void set_player_max_life_and_mana();
 void repair_alternate_weapons(BOOL *repairok);
 void recharge_alternate_staff(BOOL *rechargeok);
+void shift_click_potion();
+int belt_has_open_slot();
 
 void highlight_items_on_map();
 void draw_trap_if_rogue(int bv, int sx, int sy);
@@ -108,6 +110,7 @@ void check_if_projectile_hit_barrel(int *oi, int mx, int my);
 void draw_floating_text_above_player();
 void draw_floating_gold(int goldGain, int row, int col);
 void draw_weapon_switch_icons();
+void store_auto_place_no_belt();
 
 #ifdef __cplusplus
 }

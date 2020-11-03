@@ -1740,6 +1740,7 @@ void CheckInvItem()
 		CheckInvPaste(myplr, MouseX, MouseY);
 	} else {
 		CheckInvCut(myplr, MouseX, MouseY);
+		shift_click_potion();
 	}
 }
 

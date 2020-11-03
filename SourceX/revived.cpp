@@ -143,7 +143,7 @@ void check_if_projectile_hit_barrel(int *oi, int mx, int my) {
   }
   
   if (object[*oi]._otype >= OBJ_BARREL && object[*oi]._otype <= OBJ_BARRELEX && object[*oi]._oBreak == 1) {
-    BreakBarrel(myplr, *oi, 100, 0, 1);
+    BreakBarrel(myplr, *oi, 1, 0, 1);
   }
 }
 
@@ -209,7 +209,7 @@ void auto_pickup_gold(int pnum) {
   PlayerStruct& player = plr[pnum];
   if (currlevel == ENTRY_MAIN) return;
   
-  for (int orient = 0; orient < 9; ++orient) {
+  for (int orient = 0; orient < 8; ++orient) {
     int row = player._px + pathxdir[orient];
     int col = player._py + pathydir[orient];
 
@@ -245,6 +245,40 @@ void set_player_max_life_and_mana() {
   
   plr[myplr]._pMana = plr[myplr]._pMaxMana;
   plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
+}
+
+//SLOTXY_BELT_FIRST
+void shift_click_potion() {
+  if (plr[myplr].HoldItem._itype == ITYPE_MISC) {
+    if (GetAsyncKeyState(DVL_VK_SHIFT) & 0x8000) {
+      int idx = plr[myplr].HoldItem.IDidx;
+      if(plr[myplr].HoldItem._iStatFlag && AllItemsList[idx].iUsable) {
+        int slot = belt_has_open_slot();
+        
+        if (slot >= 0 &&
+           MouseX >= RIGHT_PANEL &&
+           MouseX < RIGHT_PANEL+SPANEL_WIDTH &&
+           MouseY >= 0 &&
+           MouseY < SPANEL_HEIGHT) {
+          StoreAutoPlace();
+        } else {
+          store_auto_place_no_belt();
+        }
+      }
+      SetCursor_(CURSOR_HAND);
+      SetCursorPos(MouseX, MouseY);
+    }
+  }
+}
+
+int belt_has_open_slot() {
+  for(int i = 0; i < MAXBELTITEMS; i++) {
+    if (plr[myplr].SpdList[i]._itype == ITYPE_NONE) {
+      return i;
+    }
+  }
+  
+  return -1;
 }
 
 void highlight_items_on_map() {
@@ -674,6 +708,68 @@ void draw_weapon_switch_icons() {
   int offset = 231;
   CelDraw(RIGHT_PANEL_X + 17*1.8+offset, 233, weapon_switch_icons, panbtn[7] + 3+(plr[myplr].currentWeaponSet == 0), 33);
   CelDraw(RIGHT_PANEL_X + 17*1.8+offset, 233, weapon_switch_icons, panbtn[7] + 5+(plr[myplr].currentWeaponSet != 0), 33);
+}
+
+void store_auto_place_no_belt() {
+  BOOL done;
+  int i, w, h;
+
+  SetICursor(plr[myplr].HoldItem._iCurs + CURSOR_FIRSTITEM);
+  w = icursW28;
+  h = icursH28;
+  done = FALSE;
+  if (w == 1 && h == 1) {
+    for (i = 30; i <= 39 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 20; i <= 29 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 10; i <= 19 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 0; i <= 9 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+  }
+  if (w == 1 && h == 2) {
+    for (i = 29; i >= 20 && !done; i--) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 9; i >= 0 && !done; i--) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 19; i >= 10 && !done; i--) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+  }
+  if (w == 1 && h == 3) {
+    for (i = 0; i < 20 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+  }
+  if (w == 2 && h == 2) {
+    for (i = 0; i < 10 && !done; i++) {
+      done = AutoPlace(myplr, AP2x2Tbl[i], w, h, TRUE);
+    }
+    for (i = 21; i < 29 && !done; i += 2) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 1; i < 9 && !done; i += 2) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 10; i < 19 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+  }
+  if (w == 2 && h == 3) {
+    for (i = 0; i < 9 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+    for (i = 10; i < 19 && !done; i++) {
+      done = AutoPlace(myplr, i, w, h, TRUE);
+    }
+  }
 }
 
 DEVILUTION_END_NAMESPACE
