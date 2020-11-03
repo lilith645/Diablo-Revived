@@ -55,6 +55,7 @@ Additional improvements:
 - [ ] Add a stash
 - [ ] Make stash persistent between characters
 - [ ] Increase inventory size or add inventory tabs
+- [ ] Repair all equipped option
 
 Add a config file that allows players to customise their experience, including options to:
 
