@@ -1027,6 +1027,8 @@ void S_StartWRecharge()
 		rechargeok = TRUE;
 		AddStoreHoldRecharge(plr[myplr].InvBody[INVLOC_HAND_LEFT], -1);
 	}
+	
+	recharge_alternate_staff(&rechargeok);
 
 	for (i = 0; i < plr[myplr]._pNumInv; i++) {
 #ifdef HELLFIRE

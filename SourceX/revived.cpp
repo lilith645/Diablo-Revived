@@ -178,6 +178,13 @@ void repair_alternate_weapons(BOOL *repairok) {
   }
 }
 
+void recharge_alternate_staff(BOOL *rechargeok) {
+  if (plr[myplr].alternateWeapons[0]._itype == ITYPE_STAFF) {
+    *rechargeok = TRUE;
+    AddStoreHoldRecharge(plr[myplr].alternateWeapons[0], -2);
+  }
+}
+
 void switch_weapons() {
   if (plr[myplr]._pmode != PM_ATTACK && plr[myplr]._pmode != PM_RATTACK && 
       plr[myplr]._pmode != PM_BLOCK && plr[myplr]._pmode != PM_SPELL && 
