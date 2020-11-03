@@ -31,19 +31,19 @@ std::string GetSavePath(DWORD save_num)
 
 	if (gbIsSpawn) {
 		if (gbMaxPlayers <= 1) {
-			path.append("spawn");
+			path.append("DR_spawn");
 		} else {
-			path.append("share_");
+			path.append("DR_share_");
 		}
 	} else {
 		if (gbMaxPlayers <= 1) {
-			path.append("single_");
+			path.append("DR_single_");
 		} else {
 #ifdef HELLFIRE
-			path.append("hrinfo_");
+			path.append("DR_hrinfo_");
 			ext = ".drv";
 #else
-			path.append("multi_");
+			path.append("DR_multi_");
 #endif
 		}
 	}
