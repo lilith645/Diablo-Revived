@@ -14,6 +14,8 @@ jobs:
         - mkdir -p build && cd build
         - cmake .. -DBINARY_RELEASE=ON
         - cmake --build . --target package -- -j $(nproc)
+  allow_failures:
+    - os: osx
 addons:
   apt:
     packages:
@@ -42,6 +44,3 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_OS_NAME == "linux" && $TRAVIS_CPU_ARCH == "ppc64le"
-matrix:
-  allow_failures:
-    - os: osx
