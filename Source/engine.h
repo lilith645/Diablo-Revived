@@ -24,20 +24,6 @@ DEVILUTION_BEGIN_NAMESPACE
 extern "C" {
 #endif
 
-//offset 0
-//pCelBuff->pFrameTable[0]
-
-/** automap pixel color 8-bit (palette entry) */
-extern char gbPixelCol;
-/** flip - if y < x */
-extern BOOL gbRotateMap;
-/** Seed value before the most recent call to SetRndSeed() */
-extern int orgseed;
-/** Track number of calls to GetRndSeed() since last call to SetRndSeed() */
-extern int SeedCount;
-/** valid - if x/y are in bounds */
-extern BOOL gbNotInView;
-
 inline BYTE *CelGetFrameStart(BYTE *pCelBuff, int nCel)
 {
 	DWORD *pFrameTable;
@@ -108,10 +94,6 @@ void DrawTransparentRectangle(int x0, int dx, int y0, int dy, int color);
 void DrawSolidRectangle(int x0, int dx, int y0, int dy, int color);
 int CalculateTextWidth(const char* s);
 
-/* rdata */
-
-extern const int RndInc;
-extern const int RndMult;
 
 #ifdef __cplusplus
 }
