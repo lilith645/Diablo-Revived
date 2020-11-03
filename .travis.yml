@@ -42,3 +42,6 @@ deploy:
     on:
       tags: true
       condition: $TRAVIS_OS_NAME == "linux" && $TRAVIS_CPU_ARCH == "ppc64le"
+matrix:
+  allow_failures:
+    - os: osx
