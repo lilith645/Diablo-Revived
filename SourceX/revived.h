@@ -76,7 +76,7 @@ extern "C" {
 #endif
 
 extern char pcursxp;
-extern bool fix_unique_drop_bug;
+extern bool unique_item_bug_fix;
 extern bool run_in_town;
 extern bool automatically_pickup_gold;
 extern bool show_rogue_traps;
@@ -93,6 +93,7 @@ extern BOOL sgbIsWalking;
 extern DWORD sgdwLastWalk;
 
 void parse_revived_config();
+int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128]);
 void track_process_continuous_attacks();
 void track_lmb_loc(BYTE bCmd, BYTE x, BYTE y);
 void track_lmb_param1(BYTE bCmd, WORD wParam1);

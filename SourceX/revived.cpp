@@ -11,7 +11,7 @@
 DEVILUTION_BEGIN_NAMESPACE
 
 char pcursxp;
-bool fix_unique_drop_bug;
+bool unique_item_bug_fix;
 bool run_in_town;
 bool automatically_pickup_gold;
 bool show_rogue_traps;
@@ -68,7 +68,7 @@ BOOL GetConfigIntValue(const char *valuename, BOOL base) {
 }
 
 void parse_revived_config() {
-  fix_unique_drop_bug = GetConfigIntValue("fix_unique_bug", 1) != 0;
+  unique_item_bug_fix = GetConfigIntValue("unique_item_bug_fix", 1) != 0;
   run_in_town = GetConfigIntValue("run_in_town", 1) != 0;
   automatically_pickup_gold = GetConfigIntValue("automatically_pickup_gold", 1) != 0;
   show_rogue_traps = GetConfigIntValue("show_rogue_traps", 1) != 0;
@@ -78,6 +78,22 @@ void parse_revived_config() {
   drop_items_on_death = GetConfigIntValue("drop_items_on_death", 1) != 0;
   friendly_fire_fix = GetConfigIntValue("friendly_fire_fix", 1) != 0;
   xp_percentage_per_player = GetConfigIntValue("xp_percentage_per_player", 100);
+}
+
+int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128]) {
+  int rv = random_(29, numu);
+	int k = 0;
+	for(j = 0; j < sizeof(uok); j++) {
+		if(!uok[j]) {
+			continue;
+		}
+		if(k == rv) {
+			break;
+		}
+		k++;
+	}
+	
+	return j;
 }
 
 void track_process_continuous_attacks() {
@@ -132,7 +148,7 @@ void play_lvlup_sound() {
 }
 
 int xp_share(int exp, int totalplrs) {
-  if totalplrs == 1 {
+  if (totalplrs == 1) {
     return exp;
   } else {
     return exp*(xp_percentage_per_player*0.01);

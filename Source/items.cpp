@@ -2771,17 +2771,21 @@ int CheckUnique(int i, int lvl, int uper, BOOL recreate)
 
 	if (numu == 0)
 		return UITYPE_INVALID;
-
-	random_(29, 10); /// BUGFIX: unused, last unique in array always gets chosen
-	idata = 0;
-	while (numu > 0) {
-		if (uok[idata])
-			numu--;
-		if (numu > 0) {
-			idata++;
-			if (idata == 128)
-				idata = 0;
-		}
+  
+  if (unique_item_bug_fix) {
+    idata = bug_fix_check_unique(j, numu, uok);
+  } else {
+	  random_(29, 10); /// BUGFIX: unused, last unique in array always gets chosen
+	  idata = 0;
+	  while (numu > 0) {
+		  if (uok[idata])
+			  numu--;
+		  if (numu > 0) {
+			  idata++;
+			  if (idata == 128)
+				  idata = 0;
+		  }
+	  }
 	}
 
 	return idata;

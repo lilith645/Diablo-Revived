@@ -63,6 +63,7 @@ Add a config file that allows players to customise their experience, including o
 - [X] Change the amount of XP shared between players
 - [ ] Distribute gold evenly among all players
 - [ ] Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
+- [ ] Fix unique item drops
 
 ... and options to toggle:
 
