@@ -66,13 +66,13 @@ Add a config file that allows players to customise their experience, including o
 
 ... and options to toggle:
 
-- ⬜️ Items and gold dropping on death
-- ⬜️ Friendly fire
-- ⬜️ Rogue trap highlighting
-- ⬜️ Auto gold pick up
-- ⬜️ Projectiles destroying barrels
-- ⬜️ Level up sound
-- ⬜️ All unique items dropping
+- ✅ Items and gold dropping on death
+- ✅ Friendly fire
+- ✅ Rogue trap highlighting
+- ✅ Auto gold pick up
+- ✅ Projectiles destroying barrels
+- ✅ Level up sound
+- ✅ All unique items dropping
 
 # How to Play
 - Build from source (precompiled releases to come in future)
