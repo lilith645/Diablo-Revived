@@ -775,7 +775,7 @@ static void RightMouseDown()
 	}
 }
 
-static void diablo_pause_game()
+void diablo_pause_game()
 {
 	if (gbMaxPlayers <= 1) {
 		if (PauseMode) {
