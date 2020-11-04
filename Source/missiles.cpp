@@ -910,6 +910,8 @@ BOOL PlayerMHit(int pnum, int m, int dist, int mind, int maxd, int mtype, BOOLEA
 
 BOOL Plr2PlrMHit(int pnum, int p, int mindam, int maxdam, int dist, int mtype, BOOLEAN shift)
 {
+  if (FriendlyMode && friendly_fire_fix) { return 0; }
+  
 	int tac, resper, dam, blk, blkper, hper, hit;
 
 	if (plr[p]._pInvincible) {

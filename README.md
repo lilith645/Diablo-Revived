@@ -67,7 +67,7 @@ Add a config file that allows players to customise their experience, including o
 ... and options to toggle:
 
 - :heavy_check_mark: Items and gold dropping on death
-- [ ] Friendly fire
+- :heavy_check_mark: Friendly fire
 - :heavy_check_mark: Rogue trap highlighting
 - :heavy_check_mark: Auto gold pick up
 - :heavy_check_mark: Projectiles destroying barrels

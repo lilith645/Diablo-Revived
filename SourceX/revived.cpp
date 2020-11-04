@@ -19,6 +19,7 @@ bool projectiles_break_barrels;
 bool play_levelup_sound;
 bool autoheal_when_talk_to_pepin;
 bool drop_items_on_death;
+bool friendly_fire_fix;
 float xp_percentage_per_player;
 
 std::vector<FloatingText> floating_text_queue;
@@ -75,6 +76,7 @@ void parse_revived_config() {
   play_levelup_sound = GetConfigIntValue("play_levelup_sound", 1) != 0;
   autoheal_when_talk_to_pepin = GetConfigIntValue("autoheal_when_talk_to_pepin", 0) != 0;
   drop_items_on_death = GetConfigIntValue("drop_items_on_death", 1) != 0;
+  friendly_fire_fix = GetConfigIntValue("friendly_fire_fix", 1) != 0;
   xp_percentage_per_player = GetConfigIntValue("xp_percentage_per_player", 100);
 }
 

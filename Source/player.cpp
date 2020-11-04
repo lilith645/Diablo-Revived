@@ -2788,6 +2788,8 @@ BOOL PlrHitMonst(int pnum, int m)
 
 BOOL PlrHitPlr(int pnum, char p)
 {
+  if (FriendlyMode && friendly_fire_fix) { return 0; }
+  
 	BOOL rv;
 	int hit, hper, blk, blkper, dir, mind, maxd, dam, lvl, skdam, tac;
 
