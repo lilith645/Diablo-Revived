@@ -1799,7 +1799,7 @@ void STextNext()
 }
 
 void S_SmithEnter()
-{
+{ 
 	switch (stextsel) {
 	case 10:
 		talker = 0;
@@ -1819,8 +1819,8 @@ void S_SmithEnter()
 		StartStore(STORE_SSELL);
 		break;
 	case 18:
-		StartStore(STORE_SREPAIR);
-		break;
+	  StartStore(STORE_SREPAIR);
+	  break;
 	case 20:
 		stextflag = STORE_NONE;
 		break;
@@ -2171,6 +2171,10 @@ void SmithRepairItem()
 			plr[myplr].InvBody[INVLOC_HAND_LEFT]._iDurability = plr[myplr].InvBody[INVLOC_HAND_LEFT]._iMaxDur;
 		if (i == -4)
 			plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iDurability = plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iMaxDur;
+		if (i == -5)
+		  plr[myplr].alternateWeapons[0]._iDurability = plr[myplr].alternateWeapons[0]._iMaxDur;
+	  if (i == -6)
+	    plr[myplr].alternateWeapons[1]._iDurability = plr[myplr].alternateWeapons[1]._iMaxDur;
 	} else {
 		plr[myplr].InvList[i]._iDurability = plr[myplr].InvList[i]._iMaxDur;
 	}

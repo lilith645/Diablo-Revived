@@ -280,6 +280,76 @@ int belt_has_open_slot() {
   
   return -1;
 }
+/*
+int evaluate_item_cost(ItemStruct item) {
+  int v;
+  
+  if (item._iMagical != ITEM_QUALITY_NORMAL && item._iIdentified)
+    v = 30 * item._iIvalue / 100;
+  v = v * (100 * (item._iMaxDur - item._iDurability) / item._iMaxDur) / 100;
+  
+  if (!v) {
+    if (item._iMagical != ITEM_QUALITY_NORMAL && item._iIdentified)
+      return 0;
+    v = 1;
+  }
+  
+  if (v > 1)
+    v >>= 1;
+  return v;
+}
+
+void repair_equipped_items() {
+  int cost = calculate_repair_equipped_items_cost();
+  if (plr[myplr]._pGold < cost) {
+    StartStore(STORE_NOMONEY);
+    S_StartSmith();
+  } else {
+    TakePlrsMoney(calculate_repair_equipped_items_cost());
+    plr[myplr].InvBody[INVLOC_HEAD]._iDurability = plr[myplr].InvBody[INVLOC_HEAD]._iMaxDur;
+    plr[myplr].InvBody[INVLOC_CHEST]._iDurability = plr[myplr].InvBody[INVLOC_CHEST]._iMaxDur;
+    plr[myplr].InvBody[INVLOC_HAND_LEFT]._iDurability = plr[myplr].InvBody[INVLOC_HAND_LEFT]._iMaxDur;
+    plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iDurability = plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iMaxDur;
+    plr[myplr].alternateWeapons[0]._iDurability = plr[myplr].alternateWeapons[0]._iMaxDur;
+    plr[myplr].alternateWeapons[1]._iDurability = plr[myplr].alternateWeapons[1]._iMaxDur;
+    stextflag = STORE_NONE;
+  }
+}
+
+int calculate_repair_equipped_items_cost() {
+  int total_cost = 0;
+  
+  if (plr[myplr].InvBody[INVLOC_HEAD]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HEAD]._iDurability != plr[myplr].InvBody[INVLOC_HEAD]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].InvBody[INVLOC_HEAD]);
+  }
+  if (plr[myplr].InvBody[INVLOC_CHEST]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_CHEST]._iDurability != plr[myplr].InvBody[INVLOC_CHEST]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].InvBody[INVLOC_CHEST]);
+  }
+  if (plr[myplr].InvBody[INVLOC_HAND_LEFT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND_LEFT]._iDurability != plr[myplr].InvBody[INVLOC_HAND_LEFT]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].InvBody[INVLOC_HAND_LEFT]);
+  }
+  if (plr[myplr].InvBody[INVLOC_HAND_RIGHT]._itype != ITYPE_NONE && plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iDurability != plr[myplr].InvBody[INVLOC_HAND_RIGHT]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].InvBody[INVLOC_HAND_RIGHT]);
+  }
+  if (plr[myplr].alternateWeapons[0]._itype != ITYPE_NONE && plr[myplr].alternateWeapons[0]._iDurability != plr[myplr].alternateWeapons[0]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].alternateWeapons[0]);
+  }
+  if (plr[myplr].alternateWeapons[1]._itype != ITYPE_NONE && plr[myplr].alternateWeapons[1]._iDurability != plr[myplr].alternateWeapons[1]._iMaxDur) {
+    total_cost += evaluate_item_cost(plr[myplr].alternateWeapons[1]);
+  }
+  
+  return total_cost;
+}
+
+bool add_repair_all_equipped_items_option(int x, int y) {
+  int total_cost = calculate_repair_equipped_items_cost();
+  if (total_cost > 0) {
+    sprintf(tempstr, "Repair all items: %i gold", total_cost);
+    AddSText(x, y, TRUE, tempstr, COL_WHITE, TRUE);
+  }
+  
+  return (total_cost > 0);
+}*/
 
 void highlight_items_on_map() {
   // items on ground name highlighting (Qndel)

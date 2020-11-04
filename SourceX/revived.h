@@ -101,6 +101,9 @@ void repair_alternate_weapons(BOOL *repairok);
 void recharge_alternate_staff(BOOL *rechargeok);
 void shift_click_potion();
 int belt_has_open_slot();
+/*void repair_equipped_items();
+int calculate_repair_equipped_items_cost();
+bool add_repair_all_equipped_items_option(int x, int y);*/
 
 void highlight_items_on_map();
 void draw_trap_if_rogue(int bv, int sx, int sy);
