@@ -76,18 +76,28 @@ extern "C" {
 #endif
 
 extern char pcursxp;
+extern bool fix_unique_drop_bug;
+extern bool run_in_town;
+extern bool automatically_pickup_gold;
+extern bool show_rogue_traps;
+extern bool projectiles_break_barrels;
+extern bool play_levelup_sound;
+extern bool autoheal_when_talk_to_pepin;
+extern bool drop_items_on_death;
+extern float xp_percentage_per_player;
 extern std::vector<FloatingText> floating_text_queue;
 
 extern BYTE sgbIsScrolling;
 extern BOOL sgbIsWalking;
 extern DWORD sgdwLastWalk;
 
+void parse_revived_config();
 void track_process_continuous_attacks();
 void track_lmb_loc(BYTE bCmd, BYTE x, BYTE y);
 void track_lmb_param1(BYTE bCmd, WORD wParam1);
 void play_lvlup_sound();
 int xp_share(int exp, int totalplrs);
-bool shouldnt_drop_items();
+bool shouldnt_drop_items(int pnum);
 const char* get_monster_type_text(const MonsterData& monsterData);
 void escape_closes_windows();
 void pack_player_weapon_switch(PkPlayerStruct *pPack, PlayerStruct* pPlayer);

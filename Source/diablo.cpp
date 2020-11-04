@@ -513,6 +513,7 @@ int DiabloMain(int argc, char **argv)
 {
 	diablo_parse_flags(argc, argv);
 	diablo_init();
+	parse_revived_config();
 	diablo_splash();
 	mainmenu_loop();
 	diablo_deinit();

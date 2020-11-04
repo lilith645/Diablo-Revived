@@ -11,6 +11,15 @@
 DEVILUTION_BEGIN_NAMESPACE
 
 char pcursxp;
+bool fix_unique_drop_bug;
+bool run_in_town;
+bool automatically_pickup_gold;
+bool show_rogue_traps;
+bool projectiles_break_barrels;
+bool play_levelup_sound;
+bool autoheal_when_talk_to_pepin;
+bool drop_items_on_death;
+float xp_percentage_per_player;
 
 std::vector<FloatingText> floating_text_queue;
 
@@ -48,6 +57,25 @@ inline void fill_rect(int x, int y, int width, int height, BYTE col) {
 
 inline void fill_square(int x, int y, int size, BYTE col) {
   fill_rect(x, y, size, size, col);
+}
+
+BOOL GetConfigIntValue(const char *valuename, BOOL base) {
+  if (!SRegLoadValue("diablo_revived", valuename, 0, &base)) {
+    SRegSaveValue("diablo_revived", valuename, 0, base);
+  }
+  return base;
+}
+
+void parse_revived_config() {
+  fix_unique_drop_bug = GetConfigIntValue("fix_unique_bug", 1) != 0;
+  run_in_town = GetConfigIntValue("run_in_town", 1) != 0;
+  automatically_pickup_gold = GetConfigIntValue("automatically_pickup_gold", 1) != 0;
+  show_rogue_traps = GetConfigIntValue("show_rogue_traps", 1) != 0;
+  projectiles_break_barrels = GetConfigIntValue("projectiles_break_barrels", 1) != 0;
+  play_levelup_sound = GetConfigIntValue("play_levelup_sound", 1) != 0;
+  autoheal_when_talk_to_pepin = GetConfigIntValue("autoheal_when_talk_to_pepin", 0) != 0;
+  drop_items_on_death = GetConfigIntValue("drop_items_on_death", 1) != 0;
+  xp_percentage_per_player = GetConfigIntValue("xp_percentage_per_player", 100);
 }
 
 void track_process_continuous_attacks() {
@@ -97,16 +125,20 @@ void track_lmb_param1(BYTE bCmd, WORD wParam1) {
 }
 
 void play_lvlup_sound() {
-  PlaySFX(IS_QUESTDN);
+  if(play_levelup_sound)
+    PlaySFX(IS_QUESTDN);
 }
 
 int xp_share(int exp, int totalplrs) {
-  return exp;
+  return exp*(xp_percentage_per_player*0.01);
 }
 
-bool shouldnt_drop_items() {
-  //return gbMaxPlayers > 1 && plr[pnum].plrlevel == 16;
-  return true;
+bool shouldnt_drop_items(int pnum) {
+  if (drop_items_on_death) {
+    return gbMaxPlayers > 1 && plr[pnum].plrlevel == 16;
+  } else {
+    return true;
+  }
 }
 
 const char* get_monster_type_text(const MonsterData& monsterData) {
@@ -136,6 +168,9 @@ void escape_closes_windows() {
 }
 
 void check_if_projectile_hit_barrel(int *oi, int mx, int my) { 
+  if(!projectiles_break_barrels)
+    return;
+  
   if (dObject[mx][my] <= 0) {
       *oi = -1 - dObject[mx][my];
   } else {
@@ -206,9 +241,9 @@ void switch_weapons() {
 }
 
 void auto_pickup_gold(int pnum) {
-  PlayerStruct& player = plr[pnum];
-  if (currlevel == ENTRY_MAIN) return;
+  if (currlevel == ENTRY_MAIN || !automatically_pickup_gold) return;
   
+  PlayerStruct& player = plr[pnum];
   for (int orient = 0; orient < 8; ++orient) {
     int row = player._px + pathxdir[orient];
     int col = player._py + pathydir[orient];
@@ -246,6 +281,17 @@ void set_player_max_life_and_mana() {
   plr[myplr]._pMana = plr[myplr]._pMaxMana;
   plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
 }
+/*
+void ctrl_click_item() {
+  if (plr[myplr].HoldItem._itype != ITYPE_NONE) {
+    if (GetAsyncKeyState(DVL_VK_CONTROL) & 0x8000) {
+      int idx = plr[myplr].HoldItem.IDidx;
+      
+      SetCursor_(CURSOR_HAND);
+      SetCursorPos(MouseX, MouseY);
+    }
+  }
+}*/
 
 //SLOTXY_BELT_FIRST
 void shift_click_potion() {
@@ -476,7 +522,7 @@ void highlight_items_on_map() {
 }
 
 void draw_trap_if_rogue(int bv, int sx, int sy) {
-  if (is_rogue_detect_trap(object[bv]._oTrapFlag) == true) {
+  if (show_rogue_traps && is_rogue_detect_trap(object[bv]._oTrapFlag) == true) {
     int offset = 2;
     for (int k = 1; k <= offset; ++k) {
       for (int i = -1; i <= 1; ++i) {
