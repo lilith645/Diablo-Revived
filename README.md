@@ -48,28 +48,32 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 
 # TODO
 Additional improvements:
-- :heavy_check_mark: shift + click on potions and scrolls to add them to your belt and then back into your inventory
-- [ ] ctrl + click an item to drop it
-- [ ] Mouse hover over life/mana orbs to show current/max life/man, click to toggle
-- [ ] Make shop selection stay after buying an item
-- [ ] Add a stash
-- [ ] Make stash persistent between characters
-- [ ] Increase inventory size or add inventory tabs
-- [ ] Repair all equipped option
+✅ shift + click on potions and scrolls to move them to your belt or back into your inventory
+⬜️ ctrl + click an item to drop it
+⬜️ Mouse hover over life/mana orbs to show current/max life/man, click to toggle
+⬜️ Make shop selection stay after buying an item
+⬜️ Add a stash
+⬜️ Make stash persistent between characters
+⬜️ Increase inventory size and/or add inventory tabs
+⬜️ Repair all equipped option
+
 
 Add a config file that allows players to customise their experience, including options to:
 
-- [ ] Change the max size of gold piles (with fair warning)
-- [X] Change the amount of XP shared between players
-- [ ] Distribute gold evenly among all players
-- [ ] Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
-- :heavy_check_mark: Toggle items and gold dropping on death
-- :heavy_check_mark: Toggle friendly fire fix
-- :heavy_check_mark: Toggle rogue trap highlighting
-- :heavy_check_mark: Toggle auto gold pick up
-- :heavy_check_mark: Toggle projectiles destroying barrels
-- :heavy_check_mark: Toggle level up sound
-- :heavy_check_mark: Toggle fix unique item drops
+⬜️ Change the max size of gold piles (with fair warning)
+✅ Change the amount of XP shared between players
+⬜️ Distribute gold evenly among all players
+⬜️ Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
+
+... and options to toggle:
+
+⬜️ Items and gold dropping on death
+⬜️ Friendly fire
+⬜️ Rogue trap highlighting
+⬜️ Auto gold pick up
+⬜️ Projectiles destroying barrels
+⬜️ Level up sound
+⬜️ All unique items dropping
 
 # How to Play
 - Build from source (precompiled releases to come in future)
