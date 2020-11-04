@@ -48,32 +48,31 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 
 # TODO
 Additional improvements:
-✅ shift + click on potions and scrolls to move them to your belt or back into your inventory
-⬜️ ctrl + click an item to drop it
-⬜️ Mouse hover over life/mana orbs to show current/max life/man, click to toggle
-⬜️ Make shop selection stay after buying an item
-⬜️ Add a stash
-⬜️ Make stash persistent between characters
-⬜️ Increase inventory size and/or add inventory tabs
-⬜️ Repair all equipped option
-
+- ✅ shift + click on potions and scrolls to move them to your belt or back into your inventory
+- ⬜️ ctrl + click an item to drop it
+- ⬜️ Mouse hover over life/mana orbs to show current/max life/man, click to toggle
+- ⬜️ Make shop selection stay after buying an item
+- ⬜️ Add a stash
+- ⬜️ Make stash persistent between characters
+- ⬜️ Increase inventory size and/or add inventory tabs
+- ⬜️ Repair all equipped option
 
 Add a config file that allows players to customise their experience, including options to:
 
-⬜️ Change the max size of gold piles (with fair warning)
-✅ Change the amount of XP shared between players
-⬜️ Distribute gold evenly among all players
-⬜️ Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
+- ⬜️ Change the max size of gold piles (with fair warning)
+- ✅ Change the amount of XP shared between players
+- ⬜️ Distribute gold evenly among all players
+- ⬜️ Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
 
 ... and options to toggle:
 
-⬜️ Items and gold dropping on death
-⬜️ Friendly fire
-⬜️ Rogue trap highlighting
-⬜️ Auto gold pick up
-⬜️ Projectiles destroying barrels
-⬜️ Level up sound
-⬜️ All unique items dropping
+- ⬜️ Items and gold dropping on death
+- ⬜️ Friendly fire
+- ⬜️ Rogue trap highlighting
+- ⬜️ Auto gold pick up
+- ⬜️ Projectiles destroying barrels
+- ⬜️ Level up sound
+- ⬜️ All unique items dropping
 
 # How to Play
 - Build from source (precompiled releases to come in future)
