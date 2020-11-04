@@ -130,7 +130,11 @@ void play_lvlup_sound() {
 }
 
 int xp_share(int exp, int totalplrs) {
-  return exp*(xp_percentage_per_player*0.01);
+  if totalplrs == 1 {
+    return exp;
+  } else {
+    return exp*(xp_percentage_per_player*0.01);
+  }
 }
 
 bool shouldnt_drop_items(int pnum) {
