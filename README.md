@@ -63,16 +63,13 @@ Add a config file that allows players to customise their experience, including o
 - [X] Change the amount of XP shared between players
 - [ ] Distribute gold evenly among all players
 - [ ] Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
-- [ ] Fix unique item drops
-
-... and options to toggle:
-
-- :heavy_check_mark: Items and gold dropping on death
-- :heavy_check_mark: Friendly fire
-- :heavy_check_mark: Rogue trap highlighting
-- :heavy_check_mark: Auto gold pick up
-- :heavy_check_mark: Projectiles destroying barrels
-- :heavy_check_mark: Level up sound
+- :heavy_check_mark: Toggle items and gold dropping on death
+- :heavy_check_mark: Toggle friendly fire fix
+- :heavy_check_mark: Toggle rogue trap highlighting
+- :heavy_check_mark: Toggle auto gold pick up
+- :heavy_check_mark: Toggle projectiles destroying barrels
+- :heavy_check_mark: Toggle level up sound
+- :heavy_check_mark: Toggle fix unique item drops
 
 # How to Play
 - Build from source (precompiled releases to come in future)
