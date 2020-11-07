@@ -56,6 +56,10 @@ Additional improvements:
 - ⬜️ Make stash persistent between characters
 - ⬜️ Increase inventory size and/or add inventory tabs
 - ⬜️ Repair all equipped option
+- ⬜️ Adjust zoom with mouse wheel scrolling
+- ⬜️ Click on an item name to pick it up
+- ⬜️ Highlight items with colour coding by rarity
+- ⬜️ Toggle highlighting with a key (like PoE)
 
 Add a config file that allows players to customise their experience, including options to:
 
@@ -73,6 +77,9 @@ Add a config file that allows players to customise their experience, including o
 - ✅ Projectiles destroying barrels
 - ✅ Level up sound
 - ✅ All unique items dropping
+
+Bug fixes:
+- Shift + click to belt dupe (see issues)
 
 # How to Play
 - Build from source (precompiled releases to come in future)
