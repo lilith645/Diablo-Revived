@@ -207,7 +207,7 @@ void gamemenu_restart_town(BOOL bActivate)
 	NetSendCmd(TRUE, CMD_RETOWN);
 }
 
-static void gamemenu_sound_music_toggle(const char *const *names, TMenuItem *menu_item, int volume)
+void gamemenu_sound_music_toggle(const char *const *names, TMenuItem *menu_item, int volume)
 {
 	if (gbSndInited) {
 		menu_item->dwFlags |= GMENU_ENABLED | GMENU_SLIDER;
@@ -226,12 +226,12 @@ static int gamemenu_slider_music_sound(TMenuItem *menu_item)
 	return gmenu_slider_get(menu_item, VOLUME_MIN, VOLUME_MAX);
 }
 
-static void gamemenu_get_music()
+void gamemenu_get_music()
 {
 	gamemenu_sound_music_toggle(music_toggle_names, sgOptionsMenu, sound_get_or_set_music_volume(1));
 }
 
-static void gamemenu_get_sound()
+void gamemenu_get_sound()
 {
 	gamemenu_sound_music_toggle(sound_toggle_names, &sgOptionsMenu[1], sound_get_or_set_sound_volume(1));
 }
@@ -243,7 +243,7 @@ void gamemenu_jogging()
 	sgOptionsMenu[3].pszStr = jogging_toggle_names[!jogging_opt ? 1 : 0];
 }
 
-static void gamemenu_get_gamma()
+void gamemenu_get_gamma()
 {
 	gmenu_slider_steps(&sgOptionsMenu[2], 15);
 	gmenu_slider_set(&sgOptionsMenu[2], 30, 100, UpdateGamma(0));
@@ -271,7 +271,7 @@ static void gamemenu_get_speed()
 	gmenu_slider_set(&sgOptionsMenu[3], 20, 50, ticks_per_sec);
 }
 
-static void gamemenu_get_color_cycling()
+void gamemenu_get_color_cycling()
 {
 	sgOptionsMenu[3].pszStr = color_cycling_toggle_names[palette_get_color_cycling() & 1];
 }
