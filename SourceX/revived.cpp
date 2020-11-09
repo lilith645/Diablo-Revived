@@ -315,27 +315,35 @@ void ctrl_click_item() {
   }
 }*/
 
+void control_click_drop_item() {
+  if (plr[myplr].HoldItem._itype != ITYPE_NONE) {
+    NetSendCmdPItem(TRUE, CMD_PUTITEM, cursmx, cursmy);
+    SetCursor_(CURSOR_HAND);
+    NewCursor(CURSOR_HAND);
+    plr[myplr].HoldItem._itype = ITYPE_NONE;
+  }
+}
+
 //SLOTXY_BELT_FIRST
 void shift_click_potion() {
-  if (plr[myplr].HoldItem._itype == ITYPE_MISC) {
-    if (GetAsyncKeyState(DVL_VK_SHIFT) & 0x8000) {
-      int idx = plr[myplr].HoldItem.IDidx;
-      if(plr[myplr].HoldItem._iStatFlag && AllItemsList[idx].iUsable) {
-        int slot = belt_has_open_slot();
-        
-        if (slot >= 0 &&
-           MouseX >= RIGHT_PANEL &&
-           MouseX < RIGHT_PANEL+SPANEL_WIDTH &&
-           MouseY >= 0 &&
-           MouseY < SPANEL_HEIGHT) {
-          StoreAutoPlace();
-        } else {
-          store_auto_place_no_belt();
-        }
+  if (plr[myplr].HoldItem._itype == ITYPE_MISC && plr[myplr].HoldItem._itype != ITYPE_NONE) {
+    int idx = plr[myplr].HoldItem.IDidx;
+    if(plr[myplr].HoldItem._iStatFlag && AllItemsList[idx].iUsable) {
+      int slot = belt_has_open_slot();
+      if (slot >= 0 &&
+         MouseX >= RIGHT_PANEL &&
+         MouseX < RIGHT_PANEL+SPANEL_WIDTH &&
+         MouseY >= 0 &&
+         MouseY < SPANEL_HEIGHT) {
+        StoreAutoPlace();
+      } else {
+        store_auto_place_no_belt();
       }
       SetCursor_(CURSOR_HAND);
-      SetCursorPos(MouseX, MouseY);
+      NewCursor(CURSOR_HAND);
+      plr[myplr].HoldItem._itype = ITYPE_NONE;
     }
+
   }
 }
 
