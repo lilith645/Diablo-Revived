@@ -1198,9 +1198,7 @@ void DrawView(int StartX, int StartY)
 
 	DrawDurIcon();
 	
-	if (drawitems) {
-		highlight_items_on_map();
-	}
+	highlight_items_on_map();
 
 	if (chrflag) {
 		DrawChr();

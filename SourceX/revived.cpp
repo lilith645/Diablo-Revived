@@ -11,6 +11,7 @@
 DEVILUTION_BEGIN_NAMESPACE
 
 char pcursxp;
+bool drawitems;
 bool unique_item_bug_fix;
 bool run_in_town;
 bool automatically_pickup_gold;
@@ -429,7 +430,10 @@ bool add_repair_all_equipped_items_option(int x, int y) {
 }*/
 
 void highlight_items_on_map() {
-  // items on ground name highlighting (Qndel)
+  if (!drawitems) {
+    return;
+  }
+  
   class itemLabel {
   public:
     int itemID;
@@ -752,7 +756,7 @@ void draw_floating_text_above_player() {
     indexes.push_back(floating_text_queue.size() - 1);
   }
   for (;;) {
-    for (int j = 0; j < indexes.size(); ++j) {
+    for (long unsigned int j = 0; j < indexes.size(); ++j) {
       FloatingText lastElem = floating_text_queue[indexes[j]];
       if (lastElem.callerID != -1) {
         for (int i = 0; i < (int)floating_text_queue.size() - 2; ++i) {

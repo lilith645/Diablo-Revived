@@ -31,7 +31,6 @@ BOOL gbGameLoopStartup;
 BOOL gbRunGame;
 BOOL gbRunGameResult;
 BOOL zoomflag;
-bool drawitems;
 BOOL gbProcessPlayers;
 BOOL gbLoadGame;
 int DebugMonsters[10];
@@ -820,7 +819,7 @@ static void ReleaseKey(int vkey)
 	if (vkey == DVL_VK_SNAPSHOT)
 		CaptureScreen();
 	if (vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU)
-		drawitems = false;
+		drawitems = !drawitems;
 }
 
 BOOL PressEscKey()
@@ -1041,7 +1040,7 @@ static void PressKey(int vkey)
 			STextNext();
 		}
 	} else if(vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU) {
-		drawitems = !drawitems;
+		//drawitems = !drawitems;
 	} else if (vkey == DVL_VK_LEFT) {
 		if (automapflag && !talkflag) {
 			AutomapLeft();

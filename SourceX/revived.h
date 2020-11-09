@@ -76,6 +76,7 @@ extern "C" {
 #endif
 
 extern char pcursxp;
+extern bool drawitems;
 extern bool unique_item_bug_fix;
 extern bool run_in_town;
 extern bool automatically_pickup_gold;
@@ -86,6 +87,7 @@ extern bool autoheal_when_talk_to_pepin;
 extern bool drop_items_on_death;
 extern float xp_percentage_per_player;
 extern bool friendly_fire_fix;
+
 extern std::vector<FloatingText> floating_text_queue;
 
 extern BYTE sgbIsScrolling;
