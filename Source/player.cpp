@@ -1012,23 +1012,16 @@ void AddPlrExperience(int pnum, int lvl, int exp)
 void AddPlrMonstExper(int lvl, int exp, char pmask)
 {
 	int totplrs, i, e;
-/*
+
 	totplrs = 0;
 	for (i = 0; i < MAX_PLRS; i++) {
-	  if ((1 << i) & pmask) {
+		if ((1 << i) & pmask) {
 			totplrs++;
 		}
-	}*/
-
-	if (totplrs) {
-		e = xp_share(exp, totplrs);
-		//if (pmask & (1 << myplr))
-		for(int i = 0; i < MAX_PLRS; i++) {
-		  if(plr[i]._pHitPoints != 0)
-			  AddPlrExperience(i, lvl, e);
-		}
-		
 	}
+	
+	e = xp_share(exp, totplrs);
+	AddPlrExperience(myplr, lvl, e);
 }
 
 void InitPlayer(int pnum, BOOL FirstTime)
