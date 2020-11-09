@@ -1041,7 +1041,7 @@ static void PressKey(int vkey)
 			STextNext();
 		}
 	} else if(vkey == DVL_VK_MENU || vkey == DVL_VK_LMENU || vkey == DVL_VK_RMENU) {
-		drawitems = true;
+		drawitems = !drawitems;
 	} else if (vkey == DVL_VK_LEFT) {
 		if (automapflag && !talkflag) {
 			AutomapLeft();
