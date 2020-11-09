@@ -55,6 +55,8 @@ void objects_454BA8();
 void objects_rnd_454BEA();
 DIABOOL objects_lv_24_454B04(int s);
 
+void BreakBarrel(int pnum, int i, int dam, BOOL forcebreak, BOOL sendmsg);
+
 #ifdef __cplusplus
 }
 #endif

@@ -54,6 +54,10 @@ void STextEnter();
 void CheckStoreBtn();
 void ReleaseStoreBtn();
 
+void AddStoreHoldRepair(ItemStruct *itm, int i);
+void AddStoreHoldRecharge(ItemStruct itm, int i);
+void StoreAutoPlace();
+
 /* rdata */
 
 #ifdef __cplusplus

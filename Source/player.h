@@ -16,6 +16,7 @@ extern int myplr;
 extern PlayerStruct plr[MAX_PLRS];
 extern BOOL deathflag;
 extern int ToBlkTbl[NUM_CLASSES];
+extern int ExpLvlsTbl[MAXCHARLEVEL];
 
 void LoadPlrGFX(int pnum, player_graphic gfxflag);
 void InitPlayerGFX(int pnum);
