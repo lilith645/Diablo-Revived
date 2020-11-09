@@ -5,20 +5,21 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install libsdl2-ttf-dev  ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                               ; fi
 language: cpp
-os: osx
-  osx_image: xcode11.3
-  script:
-    - cmake -S. -Bbuild -DBINARY_RELEASE=ON
-    - sudo cmake --build build --target package --config Release -j $(sysctl -n hw.physicalcpu)
-os: linux
-  dist: bionic
-  arch: ppc64le
-  script:
+dist: bionic
+arch: ppc64le
+os:
+- linux
+- script:
     # CMake 3.10: no -S/-B and -j is build tool specific.
     - mkdir -p build && cd build
     - cmake .. -DBINARY_RELEASE=ON
     - cmake --build . --target package -- -j $(nproc)
-matrix:
+- osx
+- osx_image: xcode11.3
+  script:
+    - cmake -S. -Bbuild -DBINARY_RELEASE=ON
+    - sudo cmake --build build --target package --config Release -j $(sysctl -n hw.physicalcpu)
+jobs:
   allow_failures:
     - os: osx
 git:
