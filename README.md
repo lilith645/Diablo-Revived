@@ -13,10 +13,10 @@ Diablo: Revived will always support the same platforms as DevilutionX, i.e. Linu
 
 Yes, but you will need to compile with the flag '-DHELLFIRE=ON' and add hellfire.mpq, hfmonk.mpq, hfmusic.mpq. and hfvoice.mpq to the same directory as the DevilutionX executable.
 
-> What makes Diablo: Revived different from [Infernity](https://github.com/qndel/Infernity)?
+> What makes Diablo: Revived different from Infernity)?
 
-- Based on the latest version of DevilutionX as of 02/11/2020 (that's November for you 'Muricans)
-- Supports Linux, Mac, and Windows
+- Always based on the latest version of DevilutionX.
+- Supports Linx, Windows, and Mac
 - No additional difficulty level or the additional items found therein
 - Several QOL improvements not featured in Infernity
 
