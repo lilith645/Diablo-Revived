@@ -751,7 +751,7 @@ void draw_floating_text_above_player() {
     indexes.push_back(floating_text_queue.size() - 1);
   }
   for (;;) {
-    for (uint j = 0; j < indexes.size(); ++j) {
+    for (int j = 0; j < indexes.size(); ++j) {
       FloatingText lastElem = floating_text_queue[indexes[j]];
       if (lastElem.callerID != -1) {
         for (int i = 0; i < (int)floating_text_queue.size() - 2; ++i) {
