@@ -60,6 +60,7 @@ Additional improvements:
 - ⬜️ Click on an item name to pick it up
 - ⬜️ Highlight items with colour coding by rarity
 - ⬜️ Toggle highlighting with a key (like PoE)
+- ⬜️ Make options available in game.
 
 Add a config file that allows players to customise their experience, including options to:
 
