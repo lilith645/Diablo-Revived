@@ -321,6 +321,7 @@ void control_click_drop_item() {
     SetCursor_(CURSOR_HAND);
     NewCursor(CURSOR_HAND);
     plr[myplr].HoldItem._itype = ITYPE_NONE;
+    SetCursorPos(MouseX, MouseY);
   }
 }
 
@@ -342,8 +343,8 @@ void shift_click_potion() {
       SetCursor_(CURSOR_HAND);
       NewCursor(CURSOR_HAND);
       plr[myplr].HoldItem._itype = ITYPE_NONE;
+      SetCursorPos(MouseX, MouseY);
     }
-
   }
 }
 
