@@ -93,7 +93,7 @@ extern BOOL sgbIsWalking;
 extern DWORD sgdwLastWalk;
 
 void parse_revived_config();
-int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128]);
+int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128], int uok_size);
 void track_process_continuous_attacks();
 void track_lmb_loc(BYTE bCmd, BYTE x, BYTE y);
 void track_lmb_param1(BYTE bCmd, WORD wParam1);

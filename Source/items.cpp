@@ -2773,7 +2773,7 @@ int CheckUnique(int i, int lvl, int uper, BOOL recreate)
 		return UITYPE_INVALID;
   
   if (unique_item_bug_fix) {
-    idata = bug_fix_check_unique(j, numu, uok);
+    idata = bug_fix_check_unique(j, numu, uok, sizeof(uok));
   } else {
 	  random_(29, 10); /// BUGFIX: unused, last unique in array always gets chosen
 	  idata = 0;

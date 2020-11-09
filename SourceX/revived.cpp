@@ -68,7 +68,7 @@ BOOL GetConfigIntValue(const char *valuename, BOOL base) {
 }
 
 void parse_revived_config() {
-  unique_item_bug_fix = GetConfigIntValue("unique_item_bug_fix", 1) != 0;
+  unique_item_bug_fix = GetConfigIntValue("unique_item_bug_fix", 0) != 0;
   run_in_town = GetConfigIntValue("run_in_town", 1) != 0;
   automatically_pickup_gold = GetConfigIntValue("automatically_pickup_gold", 1) != 0;
   show_rogue_traps = GetConfigIntValue("show_rogue_traps", 1) != 0;
@@ -80,10 +80,10 @@ void parse_revived_config() {
   xp_percentage_per_player = GetConfigIntValue("xp_percentage_per_player", 100);
 }
 
-int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128]) {
+int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128], int uok_size) {
   int rv = random_(29, numu);
 	int k = 0;
-	for(j = 0; j < sizeof(uok); j++) {
+	for(j = 0; j < uok_size; j++) {
 		if(!uok[j]) {
 			continue;
 		}
@@ -278,7 +278,7 @@ void auto_pickup_gold(int pnum) {
         NetSendCmdGItem(1u, CMD_REQUESTAGITEM, pnum, pnum, itemIndex);
         item[itemIndex]._iRequest = 1;
         CalcPlrInv(myplr, 1);
-        PlaySFX(68);
+        PlaySFX(IS_GOLD);
       }
     }
   }
