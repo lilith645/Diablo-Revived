@@ -2317,8 +2317,10 @@ void WitchRechargeItem()
 	storehold[idx]._iCharges = storehold[idx]._iMaxCharges;
 
 	i = storehidx[idx];
-	if (i < 0)
+	if (i == -1)
 		plr[myplr].InvBody[INVLOC_HAND_LEFT]._iCharges = plr[myplr].InvBody[INVLOC_HAND_LEFT]._iMaxCharges;
+	else if (i == -2)
+	  plr[myplr].alternateWeapons[0]._iCharges = plr[myplr].alternateWeapons[0]._iMaxCharges;
 	else
 		plr[myplr].InvList[i]._iCharges = plr[myplr].InvList[i]._iMaxCharges;
 

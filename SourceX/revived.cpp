@@ -237,7 +237,7 @@ void repair_alternate_weapons(BOOL *repairok) {
 }
 
 void recharge_alternate_staff(BOOL *rechargeok) {
-  if (plr[myplr].alternateWeapons[0]._itype == ITYPE_STAFF) {
+  if (plr[myplr].alternateWeapons[0]._itype == ITYPE_STAFF && plr[myplr].alternateWeapons[0]._iCharges < plr[myplr].alternateWeapons[0]._iMaxCharges) {
     *rechargeok = TRUE;
     AddStoreHoldRecharge(plr[myplr].alternateWeapons[0], -2);
   }
