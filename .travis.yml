@@ -1,24 +1,11 @@
 language: cpp
-
-# Forces travis to use VM insted container, required to be able to build containers.
-sudo: required
-
 dist: bionic
-arch: ppc64le
-os: linux
-addons:
-  apt:
-    packages:
-      - "libsodium-dev"
-      - "libsdl2-mixer-dev"
-      - "libsdl2-ttf-dev"
-jobs:
-  include:
-  - stage: Linux
-    install:
-      - sudo apt-get -qq update
-      - mkdir -p build
-      - cd build
-      - cmake .. -DBINARY_RELEASE=ON
-    script:
-      - cmake --build . --target package -- -j $(nproc)
+#arch: ppc64le
+compiler:
+- clang++
+- g++
+os:
+- linux
+before_install: sudo apt-get -qq update && sudo apt-get -qq install libsodium-dev libsdl2-mixer-dev libsdl2-ttf-dev
+install: sudo apt-get -qq update && mkdir -p build && cd build && cmake .. -DBINARY_RELEASE=ON
+script: cmake --build . --target package -- -j $(nproc)
