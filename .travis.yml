@@ -1,27 +1,20 @@
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update                 ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install libsodium-dev  ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install libsdl2-mixer-dev  ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install libsdl2-ttf-dev  ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                               ; fi
 language: cpp
 dist: bionic
 arch: ppc64le
-os:
-- linux
-- script:
-    # CMake 3.10: no -S/-B and -j is build tool specific.
-    - mkdir -p build && cd build
-    - cmake .. -DBINARY_RELEASE=ON
-    - cmake --build . --target package -- -j $(nproc)
-- osx
-- osx_image: xcode11.3
-  script:
-    - cmake -S. -Bbuild -DBINARY_RELEASE=ON
-    - sudo cmake --build build --target package --config Release -j $(sysctl -n hw.physicalcpu)
+os: linux
+addons:
+  apt:
+    packages:
+      - "libsodium-dev"
+      - "libsdl2-mixer-dev"
+      - "libsdl2-ttf-dev"
 jobs:
-  allow_failures:
-    - os: osx
-git:
-  depth: false
-  quiet: true
+  include:
+  - stage: Linux
+    install:
+      - sudo apt-get -qq update
+      - mkdir -p build
+      - cd build
+      - cmake .. -DBINARY_RELEASE=ON
+    script:
+      - cmake --build . --target package -- -j $(nproc)
