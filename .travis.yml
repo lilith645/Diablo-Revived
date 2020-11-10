@@ -1,8 +1,6 @@
 language: cpp
 dist: bionic
-#arch: ppc64le
 compiler:
-- clang++
 - g++
 os:
 - linux
