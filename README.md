@@ -46,6 +46,15 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 - XP from slain monsters given to all players equally (not split)
 - Removed friendly fire
 
+# Toggleable QOL Changes
+- Drop Items and gold on death (default: On)
+- Friendly fire fix (default: On)
+- Highlight traps when playing rogue (defualt: Off)
+- Automatically pick up gold by walking over it (default: On)
+- Projectiles destroy barrels (default: On)
+- Level up sound (default: On)
+- Unique item drop fix (default: On)
+
 # TODO
 Additional improvements:
 - ✅ shift + click on potions and scrolls to move them to your belt or back into your inventory
@@ -65,22 +74,9 @@ Additional improvements:
 Add a config file that allows players to customise their experience, including options to:
 
 - ⬜️ Change the max size of gold piles (with fair warning)
-- ✅ Change the amount of XP shared between players
+- ✅ Change the amount of XP shared between players (default: 100%)
 - ⬜️ Distribute gold evenly among all players
 - ⬜️ Allow Pepin to restore life and mana automatically when spoken to like Adria in Diablo II
-
-... and options to toggle:
-
-- ✅ Items and gold dropping on death
-- ✅ Friendly fire
-- ✅ Rogue trap highlighting
-- ✅ Auto gold pick up
-- ✅ Projectiles destroying barrels
-- ✅ Level up sound
-- ✅ All unique items dropping
-
-Bug fixes:
-- Shift + click to belt dupe (see issues)
 
 # How to Play
 - Build from source (precompiled releases to come in future)

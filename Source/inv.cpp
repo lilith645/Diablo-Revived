@@ -1755,12 +1755,8 @@ void CheckInvItem()
 		CheckInvPaste(myplr, MouseX, MouseY);
 	} else {
 		CheckInvCut(myplr, MouseX, MouseY);
-		if (GetAsyncKeyState(DVL_VK_SHIFT) & 0x8000) {
-		  shift_click_potion();
-		}
-		if (GetAsyncKeyState(DVL_VK_CONTROL) & 0x8000) {
-		  control_click_drop_item();
-		}
+		shift_click_potion();
+		control_click_drop_item();
 	}
 }
 

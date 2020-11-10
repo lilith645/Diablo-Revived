@@ -69,15 +69,15 @@ BOOL GetConfigIntValue(const char *valuename, BOOL base) {
 }
 
 void parse_revived_config() {
-  unique_item_bug_fix = GetConfigIntValue("unique_item_bug_fix", 0) != 0;
+  unique_item_bug_fix = GetConfigIntValue("unique_item_bug_fix", 1) != 0;
   run_in_town = GetConfigIntValue("run_in_town", 1) != 0;
   automatically_pickup_gold = GetConfigIntValue("automatically_pickup_gold", 1) != 0;
-  show_rogue_traps = GetConfigIntValue("show_rogue_traps", 1) != 0;
+  show_rogue_traps = GetConfigIntValue("show_rogue_traps", 0) != 0;
   projectiles_break_barrels = GetConfigIntValue("projectiles_break_barrels", 1) != 0;
   play_levelup_sound = GetConfigIntValue("play_levelup_sound", 1) != 0;
   autoheal_when_talk_to_pepin = GetConfigIntValue("autoheal_when_talk_to_pepin", 0) != 0;
   drop_items_on_death = GetConfigIntValue("drop_items_on_death", 1) != 0;
-  friendly_fire_fix = GetConfigIntValue("friendly_fire_fix", 1) != 0;
+  friendly_fire_fix = GetConfigIntValue("fix_friendly_fire", 1) != 0;
   xp_percentage_per_player = GetConfigIntValue("xp_percentage_per_player", 100);
 }
 
@@ -304,30 +304,23 @@ void set_player_max_life_and_mana() {
   plr[myplr]._pMana = plr[myplr]._pMaxMana;
   plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
 }
-/*
-void ctrl_click_item() {
-  if (plr[myplr].HoldItem._itype != ITYPE_NONE) {
-    if (GetAsyncKeyState(DVL_VK_CONTROL) & 0x8000) {
-      int idx = plr[myplr].HoldItem.IDidx;
-      
-      SetCursor_(CURSOR_HAND);
-      SetCursorPos(MouseX, MouseY);
-    }
-  }
-}*/
 
 void control_click_drop_item() {
+  if (!(GetAsyncKeyState(DVL_VK_CONTROL) & 0x8000))
+    return;
+  
   if (plr[myplr].HoldItem._itype != ITYPE_NONE) {
-    NetSendCmdPItem(TRUE, CMD_PUTITEM, cursmx, cursmy);
+    DropItemBeforeTrig();
     SetCursor_(CURSOR_HAND);
-    NewCursor(CURSOR_HAND);
-    plr[myplr].HoldItem._itype = ITYPE_NONE;
-    SetCursorPos(MouseX, MouseY);
+    //SetCursorPos(MouseX, MouseY);
   }
 }
 
 //SLOTXY_BELT_FIRST
 void shift_click_potion() {
+  if (!(GetAsyncKeyState(DVL_VK_SHIFT) & 0x8000))
+    return;
+  
   if (plr[myplr].HoldItem._itype == ITYPE_MISC && plr[myplr].HoldItem._itype != ITYPE_NONE) {
     int idx = plr[myplr].HoldItem.IDidx;
     if(plr[myplr].HoldItem._iStatFlag && AllItemsList[idx].iUsable) {
