@@ -165,6 +165,10 @@ void InitLevelCursor()
 	pcursitem = -1;
 	pcursplr = -1;
 	pcursxp = -1;
+	pcurslife = -1;
+	pcursmana = -1;
+	show_life = false;
+	show_mana = false;
 	ClearCursor();
 }
 
@@ -332,6 +336,8 @@ void CheckCursMove()
 	pcursobj = -1;
 	pcursitem = -1;
 	pcursxp = -1;
+	pcurslife = -1;
+	pcursmana = -1;
 	if (pcursinvitem != -1) {
 		drawsbarflag = TRUE;
 	}
@@ -353,6 +359,16 @@ void CheckCursMove()
 	if (MouseX > XPBAR_X && MouseX < XPBAR_X+XPBAR_WIDTH &&
 	    MouseY > XPBAR_Y-XPBAR_HEIGHT*0.5) {
 	  pcursxp = 1;
+	}
+	
+	if (MouseX > LIFE_FLASK_X && MouseX < LIFE_FLASK_X+LIFE_FLASK_WIDTH &&
+	    MouseY > LIFE_FLASK_Y && MouseY < LIFE_FLASK_Y+LIFE_FLASK_HEIGHT) {
+	  pcurslife = 1;
+	}
+	
+	if (MouseX > MANA_FLASK_X && MouseX < MANA_FLASK_X+MANA_FLASK_WIDTH &&
+	    MouseY > MANA_FLASK_Y && MouseY < MANA_FLASK_Y+MANA_FLASK_HEIGHT) {
+	  pcursmana = 1;
 	}
 	
 	if (MouseY > PANEL_TOP && MouseX >= PANEL_LEFT && MouseX <= PANEL_LEFT + PANEL_WIDTH) {
@@ -685,6 +701,8 @@ void CheckCursMove()
 		pcursmonst = -1;
 		pcursitem = -1;
 		pcursxp = -1;
+		pcurslife = -1;
+		pcursmana = -1;
 		cursmx = mx;
 		cursmy = my;
 	}

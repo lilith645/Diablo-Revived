@@ -59,7 +59,7 @@ You can find Infernity [here](https://github.com/qndel/Infernity).
 Additional improvements:
 - ✅ shift + click on potions and scrolls to move them to your belt or back into your inventory
 - ✅ ctrl + click an item to drop it
-- ⬜️ Mouse hover over life/mana orbs to show current/max life/man, click to toggle
+- ✅ Mouse hover over life/mana orbs to show current/max life/man, click to toggle
 - ⬜️ Make shop selection stay after buying an item
 - ⬜️ Add a stash
 - ⬜️ Make stash persistent between characters

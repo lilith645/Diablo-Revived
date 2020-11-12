@@ -35,6 +35,16 @@ DEVILUTION_BEGIN_NAMESPACE
 #define XPBAR_SEGMENT_SPACING 2
 #define XPBAR_SEGMENT_SIZE XPBAR_WIDTH*XPBAR_SEGMENT_PERC-XPBAR_SEGMENT_SPACING
 
+#define LIFE_FLASK_X PANEL_LEFT+PANEL_WIDTH*0.17
+#define LIFE_FLASK_Y SCREEN_HEIGHT-PANEL_HEIGHT-5
+#define LIFE_FLASK_WIDTH PANEL_WIDTH*0.1
+#define LIFE_FLASK_HEIGHT PANEL_WIDTH*0.1
+
+#define MANA_FLASK_X PANEL_LEFT+PANEL_WIDTH*0.74
+#define MANA_FLASK_Y LIFE_FLASK_Y
+#define MANA_FLASK_WIDTH SPANEL_WIDTH*0.20
+#define MANA_FLASK_HEIGHT SPANEL_WIDTH*0.2
+
 class FloatingText {
   public:
     std::string text;
@@ -76,6 +86,10 @@ extern "C" {
 #endif
 
 extern char pcursxp;
+extern char pcurslife;
+extern char pcursmana;
+extern bool show_life;
+extern bool show_mana;
 extern bool drawitems;
 extern bool unique_item_bug_fix;
 extern bool run_in_town;
@@ -120,9 +134,13 @@ int belt_has_open_slot();
 int calculate_repair_equipped_items_cost();
 bool add_repair_all_equipped_items_option(int x, int y);*/
 
+void enable_mana_life_info();
+
 void highlight_items_on_map();
 void draw_trap_if_rogue(int bv, int sx, int sy);
 void draw_xp_bar();
+void draw_life_info();
+void draw_mana_info();
 void draw_monster_health_bar(int monsterID);
 void check_if_projectile_hit_barrel(int *oi, int mx, int my);
 void draw_floating_text_above_player();

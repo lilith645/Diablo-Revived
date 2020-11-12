@@ -11,6 +11,10 @@
 DEVILUTION_BEGIN_NAMESPACE
 
 char pcursxp;
+char pcurslife;
+char pcursmana;
+bool show_life;
+bool show_mana;
 bool drawitems;
 bool unique_item_bug_fix;
 bool run_in_town;
@@ -83,18 +87,18 @@ void parse_revived_config() {
 
 int bug_fix_check_unique(int j, int numu, BOOLEAN uok[128], int uok_size) {
   int rv = random_(29, numu);
-	int k = 0;
-	for(j = 0; j < uok_size; j++) {
-		if(!uok[j]) {
-			continue;
-		}
-		if(k == rv) {
-			break;
-		}
-		k++;
-	}
-	
-	return j;
+  int k = 0;
+  for(j = 0; j < uok_size; j++) {
+    if(!uok[j]) {
+      continue;
+    }
+    if(k == rv) {
+      break;
+    }
+    k++;
+  }
+  
+  return j;
 }
 
 void track_process_continuous_attacks() {
@@ -235,6 +239,19 @@ void repair_alternate_weapons(BOOL *repairok) {
     AddStoreHoldRepair(&plr[myplr].alternateWeapons[1], -6);
   }
 }
+/*
+void repair_all_equipped(BOOL *repairok) {
+  int cost = 0;
+  
+  if (cost > 0) {
+    *repairok = TRUE;
+    //AddStoreHoldRepair(&plr[myplr].alternateWeapons[1], -6);
+    item->_iIvalue = cost;
+    item->_ivalue = cost;
+    storehidx[storenumh] = i;
+    storenumh++;
+  }
+}*/
 
 void recharge_alternate_staff(BOOL *rechargeok) {
   if (plr[myplr].alternateWeapons[0]._itype == ITYPE_STAFF && plr[myplr].alternateWeapons[0]._iCharges < plr[myplr].alternateWeapons[0]._iMaxCharges) {
@@ -305,14 +322,28 @@ void set_player_max_life_and_mana() {
   plr[myplr]._pManaBase = plr[myplr]._pMaxManaBase;
 }
 
+bool TryDropItem1() {
+  cursmx = plr[myplr]._pfutx + 1;
+  cursmy = plr[myplr]._pfuty;
+  if (!DropItemBeforeTrig()) {
+    // Try to drop on the other side
+    cursmx = plr[myplr]._pfutx;
+    cursmy = plr[myplr]._pfuty + 1;
+    DropItemBeforeTrig();
+  }
+
+  return pcurs == CURSOR_HAND;
+}
+
 void control_click_drop_item() {
   if (!(GetAsyncKeyState(DVL_VK_CONTROL) & 0x8000))
     return;
   
   if (plr[myplr].HoldItem._itype != ITYPE_NONE) {
-    DropItemBeforeTrig();
-    SetCursor_(CURSOR_HAND);
-    //SetCursorPos(MouseX, MouseY);
+    if (TryDropItem1()) {
+      plr[myplr].HoldItem._itype = ITYPE_NONE;
+      SetCursorPos(MouseX, MouseY);
+    }
   }
 }
 
@@ -562,6 +593,52 @@ void draw_trap_if_rogue(int bv, int sx, int sy) {
   }
 }
 
+void enable_mana_life_info() {
+  if (MouseX > LIFE_FLASK_X && MouseX < LIFE_FLASK_X+LIFE_FLASK_WIDTH &&
+      MouseY > LIFE_FLASK_Y && MouseY < LIFE_FLASK_Y+LIFE_FLASK_HEIGHT) {
+    show_life = !show_life;
+  }
+  
+  if (MouseX > MANA_FLASK_X && MouseX < MANA_FLASK_X+MANA_FLASK_WIDTH &&
+      MouseY > MANA_FLASK_Y && MouseY < MANA_FLASK_Y+MANA_FLASK_HEIGHT) {
+    show_mana = !show_mana;
+  }
+}
+
+void draw_life_info() {
+  if (pcurslife != -1 || show_life) {
+    char life_text[256];
+    
+    int life = plr[myplr]._pHitPoints >> 6;
+    int max_life = plr[myplr]._pMaxHP >> 6;
+    
+    sprintf(life_text, "%i / %i", life, max_life);
+    
+    int txt_width = CalculateTextWidth((char*)life_text) * 0.5;
+    
+    int x = LIFE_FLASK_X+LIFE_FLASK_WIDTH*0.5-txt_width;
+    int y = LIFE_FLASK_Y-10;
+    PrintGameStr(x, y, (char*)(std::string(life_text).c_str()), 255);
+  }
+}
+
+void draw_mana_info() {
+  if (pcursmana != -1 || show_mana) {
+    char mana_text[256];
+    
+    int mana = plr[myplr]._pMana >> 6;
+    int max_mana = plr[myplr]._pMaxMana >> 6;
+    
+    sprintf(mana_text, "%i / %i", mana, max_mana);
+    
+    int txt_width = CalculateTextWidth((char*)mana_text) * 0.5;
+    
+    int x = MANA_FLASK_X+MANA_FLASK_WIDTH*0.5-txt_width;
+    int y = MANA_FLASK_Y-10;
+    PrintGameStr(x, y, (char*)(std::string(mana_text).c_str()), 255);
+  }
+}
+
 void draw_xp_bar() {
   int barColor = PAL8_YELLOW+4;
   int backgroundColor = 0;
@@ -608,7 +685,7 @@ void draw_xp_bar() {
     
     sprintf(xp_text, "xp: %i / %i", player->_pExperience, curXp);
     int x = SCREEN_WIDTH*0.5 - CalculateTextWidth(xp_text)*0.5;
-    int y = screen_height-SCREEN_Y-16;
+    int y = screen_height-SCREEN_Y-20;
     PrintGameStr(x, y, (char*)(std::string(xp_text).c_str()), 255);
   }
 }

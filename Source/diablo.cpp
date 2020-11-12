@@ -746,6 +746,7 @@ static void LeftMouseUp()
 		ReleaseLvlBtn();
 	if (stextflag != STORE_NONE)
 		ReleaseStoreBtn();
+	enable_mana_life_info();
 }
 
 static void RightMouseDown()

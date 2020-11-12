@@ -1547,6 +1547,8 @@ void DrawAndBlit()
 	}
 	
 	draw_floating_text_above_player();
+	draw_life_info();
+	draw_mana_info();
 	draw_xp_bar();
 	
 	if (talkflag) {
